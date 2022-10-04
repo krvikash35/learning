@@ -2,6 +2,8 @@
 sdk install gradle 7.5.1
 brew install gradle
 gradle init
+./gradlew run
+./gradlew build
 ```
 
 ## Concepts
@@ -21,4 +23,8 @@ gradle init
     * build (lifecycle task): Intended to build everything, including running all tests, producing the production artifacts and generating documentation. You will probably rarely attach concrete tasks directly to build as assemble and check are typically more appropriate.
     * buildConfiguration (task rule)
     * cleanTask (task rule)
-* 
+* `application` plugin tasks. implicitly applies java plugin and distribution plugin.
+    * `run` dependsOn `classes`
+    * `startScripts` dependsOn `jar`
+    * it does not add `Main-Class` to manifest, so jar are not executable. use distribution tar/zip for executable. or add manifest by jar config of java plugin
+* `java` plugin
