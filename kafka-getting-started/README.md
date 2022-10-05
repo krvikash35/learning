@@ -78,8 +78,24 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic person
 * kafka controller
 * connect, connector & converter, serialzation & deserialization
 * retention
+* schema registry(Avro, Json, Protobuf)
 
 
+### Schema registry
+Schema and APIs are contract b/w services/teams. Consumer need to know the format(`json`, `avro`, `protobuf` etc) of topic data in order to deserialise it using proper decoder. This is where schema registry help. Now updating schema so that no consumer breaks is different problem that is solved by CI/SOP etc. We should prevent producer from producing incompatible changes.
+
+P1 --> json{"name": "v", age: 12}
+P1 --> proto{"v":12}
+P1 --> json{"name": "v", age: "12"}
+
+* Producer suddenly started sending in proto format then consumer will break
+* Producer changed the data type of age from number to string then consumer will also break
+
+* Some data format has more advantage i.e protobuf is binary format, so more efficient wrt payload size. Its also more strict wrt data types. Json are schema less.
+* schema can be send with each event but it will waste network resource, instead keep schema in registry and send the schema ID with each event.
+* Schema(some) registry only helps with contract format. Even with schema registry it is easy for producer to break the consumer as mentioned in above examples.
+* Avro supports different types of compatibility, such as forward compatible or backward compatible, and data architects can specify the compatibility rules that will be used when validating schemas for each subject
+* schema registry are client server based model. `stencil` `confluent-schema-registry` etc are example of it. 
 ## kafka setup
 * cluster vs non-cluster
 * mac: brew, zip, docker
@@ -97,3 +113,23 @@ input: stdin, ask name and email
 output file: employee.txt
 topic: employee-log
 format: json
+
+
+## clients
+Kafka officially provide sdk for java only. For other language, it is community based. Many of the client are wrapper around `librdkafka` which is c++ lib that implement kafka API.
+* java
+    * official client: provide lib `kafka-clients`(contain consumer, producer & admin api) , `kafka-streams` provide low level api.
+    * 
+```
+<dependency>
+	<groupId>org.apache.kafka</groupId>
+	<artifactId>kafka-clients</artifactId>
+	<version>3.3.1</version>
+</dependency>
+```
+* go
+    * `confluent-kafka-go`: librdkafka wrapper, no schema-registry support
+    * `kafka-go`: native.
+    * `sarma`: native, no stream support.
+* python
+    * `confluent-kafka-python`: librdkafka wrapper.
