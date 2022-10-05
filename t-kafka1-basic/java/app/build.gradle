@@ -30,3 +30,7 @@ application {
     // Define the main class for the application.
     mainClass = 'kafka.getting.started.App'
 }
+
+run {
+    standardInput = System.in
+}

@@ -3,16 +3,9 @@
  */
 package kafka.getting.started;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Properties;
-
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.errors.AuthorizationException;
-import org.apache.kafka.common.errors.OutOfOrderSequenceException;
-import org.apache.kafka.common.errors.ProducerFencedException;
-import org.apache.kafka.common.serialization.StringSerializer;
 
 public class App {
     public String getGreeting() {
@@ -24,18 +17,38 @@ public class App {
 
         System.out.println("args: " + Arrays.toString(args));
 
-        Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-
-        Producer<String, String> producer = new KafkaProducer<>(props, new StringSerializer(), new StringSerializer());
-
-        try {
-            for (int i = 0; i < 5; i++)
-                producer.send(new ProducerRecord<>("test-topic", Integer.toString(i), Integer.toString(i)));
-        } catch (ProducerFencedException | OutOfOrderSequenceException | AuthorizationException e) {
-            producer.close();
+        if (args.length == 0){
+            System.out.println("Invalid argument: please pass <consumer|producer>");
+            System.exit(0);
         }
-        producer.close();
+
+        String appType = args[0];
+        
+        if(appType.equals("producer")){
+            System.out.println("apptype");
+        }else if(appType.equals("consumer")){
+
+        }else{
+            System.out.println("Invalid argument: please pass <consumer|producer>"+ appType);
+            System.exit(0);
+        }
+
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        MyProducer producer = new MyProducer("localhost:9092");
+        try {
+            while(true){
+                System.out.println("enter msg");
+                String msg = br.readLine();
+                System.out.println(msg);
+
+                producer.send(msg);
+            }
+          
+        } catch (Exception e) {
+            System.out.println("error while taking std input: "+e);
+        }
+
 
     }
 }

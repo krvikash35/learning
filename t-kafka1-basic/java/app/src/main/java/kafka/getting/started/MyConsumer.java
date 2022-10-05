@@ -1,5 +1,5 @@
 package kafka.getting.started;
 
-public class Producer {
+public class MyConsumer {
     
 }
