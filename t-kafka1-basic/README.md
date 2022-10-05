@@ -81,6 +81,8 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic person
 * schema registry(Avro, Json, Protobuf)
 
 
+
+
 ### Schema registry
 Schema and APIs are contract b/w services/teams. Consumer need to know the format(`json`, `avro`, `protobuf` etc) of topic data in order to deserialise it using proper decoder. This is where schema registry help. Now updating schema so that no consumer breaks is different problem that is solved by CI/SOP etc. We should prevent producer from producing incompatible changes.
 
@@ -107,12 +109,9 @@ P1 --> json{"name": "v", age: "12"}
 
 
 ## Problem Statement
-create a application that take employee info from command line, publish it it to some topic, consume it from topic and save it file.
+create an application that have producer and consumer. Producer should take input from command line and write to preconfigured topic. When consumer is started, it should print topic messages to terminal.
 
-input: stdin, ask name and email
-output file: employee.txt
-topic: employee-log
-format: json
+
 
 
 ## clients

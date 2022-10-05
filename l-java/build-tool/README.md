@@ -4,6 +4,7 @@ brew install gradle
 gradle init
 ./gradlew run
 ./gradlew build
+./gradlew -q dependencies --configuration implementation
 ```
 
 ## Concepts
