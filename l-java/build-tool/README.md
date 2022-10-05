@@ -5,6 +5,14 @@ gradle init
 ./gradlew run
 ./gradlew build
 ./gradlew -q dependencies --configuration implementation
+./gradlew run --args="producer"
+```
+
+```
+# to wire app that expecting input from stdin
+run {
+    standardInput = System.in
+}
 ```
 
 ## Concepts
