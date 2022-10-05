@@ -25,29 +25,29 @@ public class App {
         String appType = args[0];
         
         if(appType.equals("producer")){
-            System.out.println("apptype");
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            MyProducer producer = new MyProducer("localhost:9092");
+            try {
+                while(true){
+                    System.out.println("enter msg");
+                    String msg = br.readLine();
+                    System.out.println(msg);
+    
+                    producer.send(msg);
+                }
+              
+            } catch (Exception e) {
+                System.out.println("error while taking std input: "+e);
+            }
         }else if(appType.equals("consumer")){
-
+            MyConsumer.start("localhost:9092");
         }else{
             System.out.println("Invalid argument: please pass <consumer|producer>"+ appType);
             System.exit(0);
         }
 
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        MyProducer producer = new MyProducer("localhost:9092");
-        try {
-            while(true){
-                System.out.println("enter msg");
-                String msg = br.readLine();
-                System.out.println(msg);
 
-                producer.send(msg);
-            }
-          
-        } catch (Exception e) {
-            System.out.println("error while taking std input: "+e);
-        }
 
 
     }

@@ -31,10 +31,18 @@ Topics
 brew install kafka
 zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
 kafka-server-start /opt/homebrew/etc/kafka/server.properties
-kafka-topics --create --topic person --bootstrap-server localhost:9092
-kafka-topics --list --bootstrap-server localhost:9092
+
 kafka-console-producer --bootstrap-server localhost:9092 --topic person
 kafka-console-consumer --bootstrap-server localhost:9092 --topic person
+
+kafka-topics --create --topic person --bootstrap-server localhost:9092
+kafka-topics --list --bootstrap-server localhost:9092
+kafka-topics --bootstrap-server localhost:9092 --alter --topic test-topic --partitions 3
+
+kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic test-topic
+
+kafka-consumer-groups  --list --bootstrap-server localhost:9092
+kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group test-group
 ```
 
 ## brew kafka binaries
@@ -81,6 +89,12 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic person
 * schema registry(Avro, Json, Protobuf)
 
 
+Notes
+* ideally no of consumer in one group should be equal to no of partition for topic else consumer are under/over utilised. message is consumed only once in one consumer group.
+* multiple producer can write to same topic.
+* once consumer are done they should commit the offset to broker, broker will store it in special topic `__consumer_offsets`. Offset are maintained for each partion and group.
+* consumer can result in duplicate/missing data depending on commit frequency and crash/restart unless consumer have local offset tracking and flushing on restart.
+* producer can choose which partition to send. if no partition provided, broken will decide partitin based on hash key. if both are **absent** then partition will be decided on round-robin(earlier), sticky(later), `partitioner.ignore.keys`(later++).
 
 
 ### Schema registry

@@ -13,6 +13,7 @@ public class MyProducer {
     public MyProducer(String broker) {
         Properties props = new Properties();
         props.put("bootstrap.servers", broker);
+        props.put("partitioner.ignore.keys", "true");
         this.producer = new KafkaProducer<>(props, new StringSerializer(), new StringSerializer());
     }
 
