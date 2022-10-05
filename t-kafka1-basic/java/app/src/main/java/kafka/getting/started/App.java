@@ -3,12 +3,12 @@
  */
 package kafka.getting.started;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.errors.AuthorizationException;
 import org.apache.kafka.common.errors.OutOfOrderSequenceException;
 import org.apache.kafka.common.errors.ProducerFencedException;
@@ -21,6 +21,8 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        System.out.println("args: " + Arrays.toString(args));
 
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
