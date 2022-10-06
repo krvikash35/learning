@@ -1,5 +1,10 @@
 # Microservices
 
+iaas vs paas vs saas
+* iass: gcp, azure, aws
+* paas: heroku, redhat openshift, google app engine
+* saas: Jira, google doc, microsoft office online
+
 infra
 * project
 * cluster
@@ -21,7 +26,7 @@ infra
 deployment
 * vm
 * kubernetes: helm
-* provider
+* provider(ias)
     * gcp
     * azure
     * aws
@@ -33,6 +38,8 @@ deployment
 config
 * zookeeper
 
+distribution
+* containerised i.e docker
 
 proxy
 * ngnix
@@ -125,5 +132,34 @@ alerting
 * slack
 * email
 
+data
+* postgres
+* kafka
+* redis
+* rabbitmq
+* bigquery
+* metabase
+
 notes
 * proxy can be used as api gatway or reverse proxy
+
+
+tools: used in ms network
+* Ngnix
+* router
+
+tools: used by dev
+* ls
+* scp
+* ssh
+
+
+prefix
+* t-lma (logging monitoring alert) i.e lma-pd, lma-barrito, lma-newrelic
+* t-depl: ci/cd, k8, vm, gitops, devops
+* t-iaas: iaas-gcp, iaas-aws, iaas-azure, iaas-tools
+* t-iac: iac-terraform, iac-chef
+* t-infra: vpn, router, proxy, apiGateway
+* sf(software) i.e sf-design-pattern, sf-design-principle
+* linux: ssh, scp
+* net-
