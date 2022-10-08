@@ -37,3 +37,6 @@ kubernetes components
     * kubelet: agent that run on each node in cluster. it make sure containers are running inpod.
     * kube-proxy: network proxy that run on each node in cluster. Maintain network rules that allow comms to pods from inside & outside cluster.
     * container runtime: responsible for running container. it supports runtime such as containered, CRI-O, other impl of CRI
+
+
+## VPC
