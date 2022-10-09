@@ -13,9 +13,39 @@
 * date
 
 
-Edit
+## vi
+
 ```
-vi
+i       insert mode
+escp    command mode
+:w      save file
+:q      quite file
+:wq     save file and quit
+:q!     quit forcfully without saving
+:set nu show line number
+
+
+W       move forward one word
+b       move backward one word
+0       move start of line
+$       move end of line
+H       move to top of screen
+M       move to middle of screen
+L       move to bottom of screen
+G       move to end of doc
+8G      move to line no 8
+
+/text   search forward
+?text   search backward
+n       next match
+N       previous match
+
+o       open new line below
+O       open new line above
+
+dw      delete word
+dl      delete leter
+D       delete line         
 ```
 
 Search, navigate
@@ -99,6 +129,12 @@ date -r 1234567890              # convert unix to iso8601
 
 ## less
 See file content one screen at a time.
+* `less file.txt`
+
+Options
+```
+
+```
 
 Navigations
 ```
@@ -113,14 +149,29 @@ Left Arrow	               Scroll left.
 n                          next match
 N                          previous match
 q                          quite
+-S                         wrap/unwrap line
+10g                        go line no 10
+-I                         toggle case sensitivity
+F                          live mode tail like, Ctrl+C to escape
+:[a]                       mark current pos with letter a
+'a                         go to pos marked with a
 ```
 
 
-commands
+Examples
 
 ```bash
 less log.txt
 less -N log.tx          # show line no
-less +F log.txt         # real time monitoring 
-less -M log.txt         # statistic line no, % 
+PAGER="less" psql       # change the default pager used psql
+```
+
+## Terminal Navigations
+* Configure Iterm to use **Natural Text Editing** preset in `Preferences->Profiles->KeysMappings->Preset`
+```
+option + >            move one word forward
+option + <            move one word backward
+cmd + <               move to start of line
+cmd + >               move to end of line
+option + del          delete word
 ```
