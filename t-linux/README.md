@@ -97,18 +97,26 @@ date -d"2014-02-14T12:30" +%s   # convert iso8601 to unix
 date -r 1234567890              # convert unix to iso8601
 ```
 
-less
-* `Down Arrow, Enter, e, j`    One line forward.
-* `Up Arrow, y, k`                        One line backward.
-* `Space bar, Page Down`           One page forward.
-* `Page Up, b`                                 One page backward.
-* `Right Arrow`                               Scroll right.
-* `Left Arrow`	                                Scroll left.
-* `/[string]`                                   search forward for string
-* `?/[string]`                                 search backward for string
-* `n`                                                     next match
-* `N`                                                     previous match
-* `q`                                                     quite
+## less
+See file content one screen at a time.
+
+Navigations
+```
+Down Arrow, Enter, e, j    One line forward.
+Up Arrow, y, k             One line backward.
+Space bar, Page Down       One page forward.
+Page Up, b                 One page backward.
+Right Arrow                Scroll right.
+Left Arrow	               Scroll left.
+/[string]                  search forward for string
+?/[string]                 search backward for string
+n                          next match
+N                          previous match
+q                          quite
+```
+
+
+commands
 
 ```bash
 less log.txt
