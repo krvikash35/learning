@@ -51,6 +51,7 @@ Asymetric encryption Algorithm
 * Private key alwasy lies with sender while it share the public key reciever.
 * Sender uses reciever's public key to encrypt data, reciever uses its own private key to decrypt data.
 * High CPU intensive, encrypted data size increase, so good for small size of data. Used in symmetric key exchange, signature(hasing)
+* Example:  `Diffie–Hellman key exchange` `RSA`, `Digital Signature Standard(DSS)`
 
 Authentication
 * username & password

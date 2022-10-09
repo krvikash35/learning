@@ -32,12 +32,23 @@ Network Layer
 * IP Address are used as address
 * It is considered logical because IP is not parmanent unlike MAC.
 * Examples: `Routers`, `HostWithNIC`
+![](./ip-packet.png)
 
 Transport Layer
 * Once packet reaches computer, it help identify destination application/process i.e `service to service` delivery
 * Port are used as address. It is of 2 Byte, hence 65,536 possible address on one IP device.
 * Two method of stream: TCP & UDP. Both with possible 
 
+IP Address
+* IP are made of two part `network` & `host` identifier. i.e `0/24` means 24bits are used for network and remain 8bits for host.
+![](./ip-address-type.png)
+
+TCP Packet
+
+![](./tcp-packet.png)
+
+TCP handsake
+![](./tcp-handsake.png)
 
 Application Layer
 * Data are handed over to application, software, service.
@@ -64,10 +75,44 @@ Router
 
 
 Address Resolution Protocol
+![arp](./arp.png)
 * packet delivery is always dataLink layer's work, hop to hop. So if one host want to send paket to other host, it must know destionation MAC as well.
 * Host store the discovered MAC address in its ARP table. If it does know then it `broadcast` and ask "if there is someone out there with IP address, pls send your mac". ARP repsonse is sent as `Unicast`.
 * If one host want send packet to other host in `same network` then it will use other host's Mac in destination
 * If one host want to send to host in `other network` then it uses `default gateways` Mac as destionation
-![arp](./arp.png)
 
 
+
+## VPN
+* It provide secure(encrypted) way to access resource over public internet. It create private tunnel over internet.
+* Cloud provider(aws, gcp) provide vpn as service, or on premise OpenVPN, CiscoVPN
+
+
+![](./vpn-flow.png)
+
+Encryptions
+* AES
+* Blowfish
+
+Protocols
+* OpenVPN
+* L2TP/IPsec
+
+VPN Types
+* Remote Access: used to access company private network securly over internet
+* Personal : used to access interent securly over internet
+* Mobie: same as remote but vpn keeps intact even if user changes network i.e from wifi to hotspot etc
+* Site to Site: to join two private network
+
+![](./vpn-handsake.png)
+
+## SSL/TLS
+* Secure socket layer and Transport layer security
+* TLS version(1.1, 1.3 etc) & cipher negotiation
+* Authenticate identity of server via its public key & SSL certificate authority's digital signature.
+* Generate symetric session key to encrypt furthur data
+![](./tcp-ssl-handsake.png)
+
+
+## HTTPS
+* HTTPS uses SSL 
