@@ -172,3 +172,29 @@ public class App{
     }
 }
 ```
+
+
+## AtomicInteger, Monitor, Synchronized
+```java
+public class Counter {
+      private static int counter = 0;
+
+      public synchronized boolean increase() {
+        return counter++
+      }
+}
+```
+
+```java
+public class Counter {
+      private final AtomicInteger number;
+
+      public Counter(int number) {
+        this.number = new AtomicInteger(number);
+      }
+
+      public boolean increase() {
+        return number.getAndIncrement()
+      }
+}
+```
