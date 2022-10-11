@@ -175,3 +175,10 @@ cmd + <               move to start of line
 cmd + >               move to end of line
 option + del          delete word
 ```
+
+## grep
+```bash
+grep "pattern1\|pattern2"
+```
+
+

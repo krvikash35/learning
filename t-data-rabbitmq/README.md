@@ -13,7 +13,7 @@ Concepts
 * Message: Information that is sent from the producer to a consumer through RabbitMQ
 * Connection: A TCP connection between your application and the RabbitMQ broker.
 * Channel: A virtual connection inside a connection. When publishing or consuming messages from a queue - it's all done over a channel.
-* Exchange: Receives messages from producers and pushes them to queues depending on rules defined by the exchange type. To receive messages, a queue needs to be bound to at least one exchange.
+* Exchange: Receives messages from producers and pushes them to queues depending on rules(`headerAttribute`, `binding`, `routingKey`) defined by the exchange type. To receive messages, a queue needs to be bound to at least one exchange.
     * Direct: uses msg's routingKey & exchange's bindingKey to route to Queue
     * Fanout: route msg to all the queue bound to that exchange
     * Topic: wildcard match b/w msg's routingKey and exchange's binding routingPattern
