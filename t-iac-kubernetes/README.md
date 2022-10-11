@@ -38,3 +38,53 @@ kubectls top nodes  # return node's cpu & mem usages(%, exact)
 kubectls top pod    # return pod's exact cpu & mem usages
 kubectl top pod | grep "podRegx1\|podRegx2"
 ```
+
+## helm & chart
+* [how to use helm3 to install software on k8](https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-3-package-manager)
+* chart bootstrap resource i.e telegraf deployment on k8 cluster using helm pkg manager
+
+```
+#example-chart i.e ngnix
+charts/
+templates/
+├─ tests/
+│  ├─ test-connection.yaml
+├─ deployment.yaml
+├─ hpa.yaml
+├─ ingress.yaml
+├─ NOTES.txt
+├─ service.yaml
+├─ serviceaccount.yaml
+├─ _helpers.tpl
+Chart.yaml
+values.yaml
+```
+
+```
+#cat example-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mychart.fullname" . }}
+  labels:
+    {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "mychart.selectorLabels" . | nindent 4 }}
+```
+
+```
+helm install ingress-nginx/ingress-nginx --set variable_name=variable_value
+helm list
+helm upgrade ingress-nginx ingress-nginx/ingress-nginx --set controller.replicaCount=3 --reuse-values
+
+helm install example-chart --dry-run --debug ./example-chart
+helm package ./example-chart
+helm install example-chart example-chart-0.1.0.tgz
+```

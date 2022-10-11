@@ -24,6 +24,14 @@ Concepts
     * AMQP: Advanced Binary Message Queuing Protocol is the protocol used by RabbitMQ for messaging. `AMQP 1.0` is radically different & more complex protocol than `AMQP 0-9-1`
     * MQTT: Binary protocol emphasising lightweight publish / subscribe messaging, targeted towards clients in constrained devices
     * STOMP: text-based messaging protocol emphasising (protocol) simplicity.
+* Consumer Acknowledgements: rmq uses consumer's `ack` as confirmation to delete msg i.e once msg is consumed by consumer then he has give ack.
+* Automatic Acknowledgements: in this `auto` mode, rmq delete the msg soon after sending. Increase throughput & performance but on cost of missed msg by consumer.
+* Negative Acknowledgements: if consumer give `nack` then reque the msg to be consumed later again.
+* Publisher Acknowledgements: to confirm if msg has reached to broker, rmq send ack to producer.
+* Dead Letter Routing: it uses dead letter fro below scenario.
+    * The message is negatively acknowledged by a consumer and is not re-queued by the RabbitMQ broker.
+    * The message expires after it exceeds the time to live period.
+    * The message was dropped because its queue exceeded a length limit.
 
 
 
