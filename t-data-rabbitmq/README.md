@@ -32,7 +32,8 @@ Concepts
     * The message is negatively acknowledged by a consumer and is not re-queued by the RabbitMQ broker.
     * The message expires after it exceeds the time to live period.
     * The message was dropped because its queue exceeded a length limit.
-
+* Heartbeats: it uses heartbeats to detect any disrupted connections or defend idle connection that might be terminated.
+* Durable Queues: durable que are persisted to disk & can survive broker restart.
 
 
 msg don't directly go to queue. It first goes to exchange & it is responsible for routing the msg to different queue based on binding and routing key.

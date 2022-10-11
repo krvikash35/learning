@@ -1,5 +1,13 @@
 
-pg_dump
+* Each segment of the WAL log size is `16 MB`
+pg_dump. if` wal_keep_segments=15` then 15*16=240MB. by default it wal keep seg is zero.
+* wal_level determines how much information is written to the WAL: 
+  * `replica`: which writes enough data to support WAL archiving and replication, including running read-only queries on a standby server
+  * `minimal`:  removes all logging except the information required to recover from a crash or immediate shutdown
+  * `logical` : adds information necessary to support logical decoding
+* `confirmed_flush_lsn`: The address (LSN) up to which the logical slot's consumer has confirmed receiving data. Data older than this is not available anymore. NULL for physical slots.
+* `restart_lsn`: The address (LSN) of oldest WAL which still might be required by the consumer of this slot and thus won't be automatically removed during checkpoints unless this LSN gets behind more than max_slot_wal_keep_size from the current LSN. NULL if the LSN of this slot has never been reserved.
+
 
 ```
 pg_dump -h host -p port -U username -d db -f dump.sql
@@ -11,6 +19,13 @@ show hba_file;
 vi /etc/postgresql/11/main/pg_hba.conf
 host    all             all             10.0.0.0/8            md5
 sudo systemctl reload postgresql@11-main
+
+select table_name, pg_relation_size(quote_ident(table_name)) from information_schema.tables where table_schema = 'public' order by 2;
+pg_is_in_recovery();
+
+select * from pg_replication_slots ;
+select * from pg_settings where name like '%autovacuum%';
+select sum(size) from pg_ls_waldir()
 ```
 
 * dd
