@@ -182,3 +182,56 @@ grep "pattern1\|pattern2"
 ```
 
 
+
+```
+journalctl
+journalctl :all logs
+journalctl -r :to reverse new entries first
+journalctl -n 2 :to view 2 log entries
+journalctl -p warning
+journalctl | grep Centaur
+journalctl -o verbose
+journalctl --list-boots
+journalctl -u service-name.service
+journalctl -u service-name --no-pager
+journalctl --list-boots
+```
+
+## systemctl
+* `service` is based on old init system /etc/init.d. 
+* `systemctl` operate on file based in  /lib/systemd if not fallback to /etc/init.d
+```
+systemctl reboot
+systemctl poweroff
+systemctl list-units --type=service
+systemctl list-units --type=service --state=active[running,stopped,enabled,disabled,failed]
+systemctl list-units --failed
+systemctl start|stop|restart|enable|disable {servicename} enable-onboot
+systemctl is-enabled|is-active {servicename}
+systemctl kill {servicename}
+systemctl kill -s 9 {servicename}
+
+service sshd status|start|stop|restart
+```
+
+## Other
+```
+PAGER="less -S" psql
+EDITOR=vim knife node edit hostname
+
+ln -s existing_file_path new_file_path
+ln -s /usr/local/Cellar/python@3.8/3.8.13_1/bin/python3 /usr/local/bin/python3.8
+
+df -h
+lsblk
+
+scp host:hostPath localHostPath
+
+lsof -i:9090
+lsof -p 39518
+top -pid $(pgrep Python | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ -pid /g')
+
+echo dkkd dkls > filename    # write to file, escape using " for special char
+echo dkkd dkls >> filename   # append to file
+cat > somefile               # write to file using stdin
+```
