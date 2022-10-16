@@ -118,16 +118,18 @@ writer.WriteHeader(500)
 
 ## monitoring and alerting
 * components
-    * Data Ingestion: `Logstash`
+    * Data Ingestion: `Logstash`, `telegraf`, `grafana agent`
     * Data Storage: `influx DB`, `prometheous`, `Elasticsearch`
     * Visualization: `grafana`, `Chronograf`, `Prometheus web ui`, `Kibana`
     * Alerting: `Kapacitor`, 
+    * clients: `statsd client`, `prometheus client`
 * stacks
     * TICK: `Telegraf` + `InfluxDB` + `Chronograf` + `Kapacitor`
     * ELK:  `Elasticsearch` + `Logstash` + `Kibana`
     * grafana/Loki/prom: 
 * `StatsD` is simple proctocol for sending application metrics over UDP.
 * various alert manager has integration with channel like `slack`, `pagerDuty` etc
+* `grafana agent` can be run as sidecar to scrape metric from app at x interval and forward to grafana.
 
 TICK Stack
 ![](./tick.png)
@@ -146,12 +148,13 @@ Links
 * counters and graphing:
 * instant vector vs range vector
 *  Promethous Querying
+* [summary and histogram](https://bryce.fisher-fleig.org/prometheus-histograms/#:~:text=Histograms%20are%20calculated%20server%20side,each%20bucket%20ahead%20of%20time.)
 
 Metric Types
 
 https://prometheus.io/docs/concepts/metric_types/
-* Counter: A counter is a cumulative metric that represents a single monotonically increasing counter whose value can only increase or be reset to zero on restart. For example, you can use a counter to represent the number of requests served, tasks completed, or errors.
-* Gauge: A gauge is a metric that represents a single numerical value that can arbitrarily go up and down. its less complex than counter, no need to do all sort of complex operation like we do for counter.
+* Counter: A counter is a cumulative metric that represents a single monotonically increasing counter whose value can only increase or be reset to zero on restart. For example, you can use a counter to represent the number of requests served, tasks completed, or errors. i.e `memory`, `http_request_time`(latency)
+* Gauge: A gauge is a metric that represents a single numerical value that can arbitrarily go up and down. its less complex than counter, no need to do all sort of complex operation like we do for counter. i.e `http_request_count`(throughput)
 * Histogram
 * Summary
 
@@ -161,11 +164,17 @@ Expression language data types
 * `Scalar` - a simple numeric floating point value
 * `String` - a simple string value; currently unused
 
+
+* `http_requests_total` is instant vector
+* `http_requests_total[5m]` is range vector
+* `rate(http_requests_total[5m])` is instant vector
+* `increase(counter[2m])` is eaual to `rate(counter[2m]) * 120` as rate is alwasy per second
+
 Aggregation operators
 
 Prometheus supports the following built-in aggregation operators that can be used to aggregate the elements of a single instant vector, resulting in a new vector of fewer elements with aggregated values:
 * sum (calculate sum over dimensions)
-min (select minimum over dimensions)
+* min (select minimum over dimensions)
 * max (select maximum over dimensions)
 * avg (calculate the average over dimensions)
 * group (all values in the resulting vector are 1)

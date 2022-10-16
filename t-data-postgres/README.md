@@ -107,3 +107,8 @@ autovaccum & dead tupple
     idle 60% on avg. no process wait for cpu time over last 5m
     overload by 135% on avg. 1.35 process wait for cpu time over last 15m
 ```
+
+## links
+* [failover](https://severalnines.com/blog/failover-postgresql-replication-101)
+* [replication](https://severalnines.com/blog/postgresql-streaming-replication-deep-dive)
+* [logical replication](https://severalnines.com/blog/overview-logical-replication-postgresql)

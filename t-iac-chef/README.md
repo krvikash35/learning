@@ -19,6 +19,7 @@ knife node list
 knife node edit client1
 
 sudo chef-client
+sudo chef-client -o 'recipe[recipeName]' # to avoid restart of other process, run specific recipe
 
 cd cookbooks/nginx
 ls
