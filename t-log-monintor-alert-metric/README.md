@@ -115,3 +115,106 @@ txn.SetWebRequestHTTP(req)
 writer = txn.SetWebResponse(writer)
 writer.WriteHeader(500)
 ```
+
+## monitoring and alerting
+* components
+    * Data Ingestion: `Logstash`
+    * Data Storage: `influx DB`, `prometheous`, `Elasticsearch`
+    * Visualization: `grafana`, `Chronograf`, `Prometheus web ui`, `Kibana`
+    * Alerting: `Kapacitor`, 
+* stacks
+    * TICK: `Telegraf` + `InfluxDB` + `Chronograf` + `Kapacitor`
+    * ELK:  `Elasticsearch` + `Logstash` + `Kibana`
+    * grafana/Loki/prom: 
+* `StatsD` is simple proctocol for sending application metrics over UDP.
+* various alert manager has integration with channel like `slack`, `pagerDuty` etc
+
+TICK Stack
+![](./tick.png)
+
+Prmoetheus and Grafana stack
+![](./promo-grafana.png)
+
+
+Points
+* only instant-vectors can be graphed.
+* range-vectors can’t be graphed because they have multiple values for each timestamp
+* apply function on range-vectors to get instant-vectors, so that they can be graphed.
+* prometheus has many function(i.e increase, rate, irate etc) for both instant and range vectors.
+
+Links
+* counters and graphing:
+* instant vector vs range vector
+*  Promethous Querying
+
+Metric Types
+
+https://prometheus.io/docs/concepts/metric_types/
+* Counter: A counter is a cumulative metric that represents a single monotonically increasing counter whose value can only increase or be reset to zero on restart. For example, you can use a counter to represent the number of requests served, tasks completed, or errors.
+* Gauge: A gauge is a metric that represents a single numerical value that can arbitrarily go up and down. its less complex than counter, no need to do all sort of complex operation like we do for counter.
+* Histogram
+* Summary
+
+Expression language data types
+* `Instant vector` - a set of time series containing a single sample for each time series, all sharing the same timestamp
+* `Range vector` - a set of time series containing a range of data points over time for each time series
+* `Scalar` - a simple numeric floating point value
+* `String` - a simple string value; currently unused
+
+Aggregation operators
+
+Prometheus supports the following built-in aggregation operators that can be used to aggregate the elements of a single instant vector, resulting in a new vector of fewer elements with aggregated values:
+* sum (calculate sum over dimensions)
+min (select minimum over dimensions)
+* max (select maximum over dimensions)
+* avg (calculate the average over dimensions)
+* group (all values in the resulting vector are 1)
+* stddev (calculate population standard deviation over dimensions)
+* stdvar (calculate population standard variance over dimensions)
+* count (count number of elements in the vector)
+* count_values (count number of elements with the same value)
+* bottomk (smallest k elements by sample value)
+* topk (largest k elements by sample value)
+* quantile (calculate φ-quantile (0 ≤ φ ≤ 1) over dimensions)
+
+These operators can either be used to aggregate over all label dimensions or preserve distinct dimensions by including a without or by clause. These clauses may be used before or after the expression.
+
+```
+<aggr-op> [without|by (<label list>)] ([parameter,] <vector expression>)
+OR
+<aggr-op>([parameter,] <vector expression>) [without|by (<label list>)]
+```
+
+without removes the listed labels from the result vector, while all other labels are preserved in the output. by does the opposite and drops labels that are not listed in the by clause, even if their label values are identical between all elements of the vector.
+
+```
+Example:
+
+If the metric http_requests_total had time series that fan out by application, 
+instance, and group labels, we could calculate the total number of seen HTTP 
+requests per application and group over all instances via:
+
+sum without (instance) (http_requests_total)
+OR
+sum by (application, group) (http_requests_total)
+```
+
+Functions
+
+* Ceil
+* increase: absolute value of counter is not usefull, on what rate it has increased over last 5 minute is usefull i.e increase(up[5m]).increase should only be used with counters. It is syntactic sugar for rate(v) multiplied by the number of seconds under the specified time range window, and should be used primarily for human readability. Use rate in recording rules so that increases are tracked consistently on a per-second basis
+```
+vector means array, multiple. a set of related timeseries is called a vector
+
+t1 up{node: a} 1
+t1 up{node: b} 0
+t2 up{node: a} 0
+
+// instant vector:
+[{metric:{node:a}, value:[t1, 1}, {metric:{node:b}, values:[t1, 0]}] 
+up
+
+// range vector: last 25 second
+[{metric:{node:a}, values:[[t1, 1], [t2, 0]]}, {metric:{node:b}, values:[[t1, 0]]}] 
+up[25s]
+```

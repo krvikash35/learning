@@ -11,6 +11,7 @@
 * morez
 * nl
 * date
+* nc
 
 
 ## vi
@@ -214,6 +215,30 @@ systemctl kill -s 9 {servicename}
 service sshd status|start|stop|restart
 ```
 
+## nc - netcat
+* port scan: without sending data to server, it can check if port are open
+* dummy chat client-server model
+* to test server by sending dummy data 
+
+
+Options
+```
+-l          # listen
+-u          # use udp instead of tcp
+-w  2       # timeout
+-z          # only scan port without sending any data
+-v          # verbose
+```
+
+Examples
+```
+nc -l 1234                          # start tcp server on localhost:1234
+nc localhost 1234                   # connect to tcp server on localhost:1234
+
+nc -zv localhost 20-30              # port scan b/w 20 & 30
+nc -zv localhost 80 20 22           # port scan on 80, 20, 22
+```
+
 ## Other
 ```
 PAGER="less -S" psql
@@ -235,3 +260,4 @@ echo dkkd dkls > filename    # write to file, escape using " for special char
 echo dkkd dkls >> filename   # append to file
 cat > somefile               # write to file using stdin
 ```
+

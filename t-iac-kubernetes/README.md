@@ -20,11 +20,14 @@ Ingress controller:
 
 ## commands
 ```
-kubectl get nodes
 kubectl get pods
+kubectl get nodes
 kubectl get deployments
 kubectl get services
 kubectl get ingress
+kubectl get pod my-pod -o yaml
+kubectl get pod my-pod -o wide
+kubectl get pods mypod -o jsonpath='{.spec.containers[*].name}'
 
 
 
@@ -37,6 +40,9 @@ kubectl describe ingress ingres1
 kubectls top nodes  # return node's cpu & mem usages(%, exact)
 kubectls top pod    # return pod's exact cpu & mem usages
 kubectl top pod | grep "podRegx1\|podRegx2"
+
+kubectl logs my-pod -c my-container
+kubectl exec -it mypod bash -c mycontainer
 ```
 
 ## helm & chart
