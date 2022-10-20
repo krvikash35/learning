@@ -22,6 +22,33 @@ func main() {
 }
 ```
 
+* It is convention to use the containing directory as package name but its not mandatory. If not then u will have to rename while importing.
+```
+math
+    add.go  #package calculator
+main.go     #import calc "myapp/math"
+
+```
+* Multiple package is not allowed under same directory.
+* to import local package, prefix package path with module name that was used to init project.
+```
+go mod init myapp
+
+math
+    add.go
+    sub.go
+main.go     
+
+import "myapp/math"
+```
+* if multiple package with same name then use below
+```
+import "math"
+import m1 "dir1/math"
+import m2 "dir2/math"
+```
+
+
 package management
 * go has always missed the package management. One of the major drawbacks of the previous (pre 1.11) go get was lack of support for managing dependency versions and enabling reproducible builds.
 *  go get did not supported module versioning. It always cloned dependency's currnet master branch source code in GOPATH

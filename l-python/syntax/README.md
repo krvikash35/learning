@@ -74,3 +74,32 @@ myFun(*args)
 kwargs = {"arg1": "Geeks", "arg2": "for", "arg3": "Geeks"}
 myFun(**kwargs)
 ```
+
+## Error
+* `SyntaxError` 
+* Exception: `ZeroDivisionError` `TypeError` etc
+```
+try:
+  fun(x)
+except:
+  print("An exception occurred")
+finally:
+  print("final")
+
+except (RuntimeError, TypeError, NameError):
+except ValueError:
+
+raise NameError('HiThere')
+raise ValueError
+raise CustomError("custom error")
+
+class CustomError(Exception):
+    pass
+
+#chaining
+try:
+    1 / 0
+except ZeroDivisionError as e:
+    raise Exception('Smelly socks') from e  # this will not contain the stacktrace of lower one
+    raise Exception('Smelly socks').with_traceback(e.__traceback__) # contain stacktrace of lower one as well
+```

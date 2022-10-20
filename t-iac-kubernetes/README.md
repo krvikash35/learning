@@ -94,3 +94,76 @@ helm install example-chart --dry-run --debug ./example-chart
 helm package ./example-chart
 helm install example-chart example-chart-0.1.0.tgz
 ```
+
+## Getting started
+
+* tool
+  * `Minikube`: very simple, minimal. single node cluster. no way to add other node.
+  * `Kubeadm`: can add 1 master, N worker node. Require powerfull laptop.
+  * `kind`: It support all sort of cluster. N master, N worker. require docker. complicated external networking.
+  * `k3s`: lightweight version of kubernetes. some feature missing.
+
+
+## Kubernetes Metrics
+* 4 golden rule: `latency`, `traffic`, `errors`, `saturation`(underlying cpu, mem etc)
+* `node_exporter` a prometheus client sends 1000s of metric at node level.
+* `cAdvisor` embeded in kubelet, provide metric at container level
+* `limit` and `request` are set at container level. If cpu exceed limit then its throttled. If memory exceed limit then it is killed. 
+
+### node cpu utilization: 
+*  `node_cpu` is counter, so rate is needed.
+* `node_load1` is gauge, 1 minute avg load. Need cpu core in order to make sense.
+* we can derive count of cpu: `count(node_cpu{mode="system"}) by (node)`
+
+```
+sum(node_load1) by (node) / count(node_cpu{mode="system"}) by (node) * 100
+```
+```
+sum(rate(
+         node_cpu{mode!=”idle”,
+                  mode!=”iowait”,
+                  mode!~”^(?:guest.*)$”
+                  }[5m])) BY (instance)
+```
+
+### node memory utilization
+* Apart from `free`, `buffer` and `cached` are also free memory. So 
+```
+sum(node_memory_MemFree + node_memory_Cached + node_memory_Buffers)
+```
+* Newer linux kernel reporter better free memory metric: `node_memory_MemAvailable`
+```
+1 - sum(node_memory_MemAvailable) by (node) 
+/ sum(node_memory_MemTotal) by (node)
+```
+
+### node disk utilization
+* `node_disk_io_now`, `node_disk_io_time_ms`, `node_disk_io_weighted` 
+```
+sum(node_filesystem_free{mountpoint="/"}) by (node, mountpoint) / sum(node_filesystem_size{mountpoint="/"}) by (node, mountpoint)
+```
+
+### node network utilization
+```
+sum(rate(node_network_receive_bytes[5m])) by (node) + sum(rate(node_network_transmit_bytes[5m])) by (node)
+```
+
+```
+sum(rate(node_network_receive_drop[5m])) by (node) + sum(rate(node_network_transmit_drop[5m])) by (node)
+```
+
+### container cpu utilization
+* `container_cpu_user_seconds_total`: total user time
+* `container_cpu_system_seconds_total`: total system time
+* `container_cpu_usage_seconds_total`: sum of above
+* all above are counter, so apply rate.
+```
+sum(
+    rate(container_cpu_usage_seconds_total[5m]))
+by (container_name)
+```
+
+```
+sum(container_memory_working_set_bytes) by (container_name) / sum(label_join(kube_pod_container_resource_limits_memory_bytes,
+    "container_name", "", "container")) by (container_name)
+```

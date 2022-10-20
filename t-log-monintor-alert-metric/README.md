@@ -219,6 +219,8 @@ t1 up{node: a} 1
 t1 up{node: b} 0
 t2 up{node: a} 0
 
+avg(up{node=a}) --> (1+0)/2
+
 // instant vector:
 [{metric:{node:a}, value:[t1, 1}, {metric:{node:b}, values:[t1, 0]}] 
 up
@@ -226,4 +228,6 @@ up
 // range vector: last 25 second
 [{metric:{node:a}, values:[[t1, 1], [t2, 0]]}, {metric:{node:b}, values:[[t1, 0]]}] 
 up[25s]
+
+avg_over_time(up{node: a}[1m]) --> (1+0)/2
 ```
