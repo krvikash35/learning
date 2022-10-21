@@ -1,4 +1,14 @@
 
+## Objects
+* `kubectl api-resources` return the list of supported object
+* types
+  * Deployment
+  * Pod
+  * Node
+  * Service
+  * Ingress
+  * ..etc
+
 ## service
 * it is used to expose the service
 * type
@@ -19,6 +29,8 @@ Ingress controller:
 ![](./ingress.png)
 
 ## commands
+
+* `kubectl create` is imperative while `kubectl apply` is declarative pattern. apply will not throw error if resource is already created.
 ```
 kubectl get pods
 kubectl get nodes
@@ -43,6 +55,8 @@ kubectl top pod | grep "podRegx1\|podRegx2"
 
 kubectl logs my-pod -c my-container
 kubectl exec -it mypod bash -c mycontainer
+
+kubectl create deployment hello-node --image=registry.k8s.io/echoserver:1.4
 ```
 
 ## helm & chart
@@ -166,4 +180,20 @@ by (container_name)
 ```
 sum(container_memory_working_set_bytes) by (container_name) / sum(label_join(kube_pod_container_resource_limits_memory_bytes,
     "container_name", "", "container")) by (container_name)
+```
+
+## Minikube
+* container runtime is prerequiste like docker, podman etc
+```
+brew install minikube
+minikube start --driver=docker
+```
+
+## Kind
+* docker is prerequisite
+```
+brew install kind
+kind create cluster #default one
+kind create cluster --name kind-2
+kind get clusters
 ```
