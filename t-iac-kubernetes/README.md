@@ -1,5 +1,5 @@
 
-## Objects
+## Workload Resources/Objects
 * `kubectl api-resources` return the list of supported object
 * types
   * Deployment
@@ -41,7 +41,11 @@ kubectl get pod my-pod -o yaml
 kubectl get pod my-pod -o wide
 kubectl get pods mypod -o jsonpath='{.spec.containers[*].name}'
 
+kubectl get events
+kubectl config view
 
+kubectl delete pod nginx
+kubectl scale deployment hello-node --replicas 2
 
 kubectl describe nodes node1
 kubectl describe pods pod1
@@ -57,6 +61,8 @@ kubectl logs my-pod -c my-container
 kubectl exec -it mypod bash -c mycontainer
 
 kubectl create deployment hello-node --image=registry.k8s.io/echoserver:1.4
+kubectl apply -f ./nginx-deployment.yaml # yaml file can be web url
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080 # expose this port app is listening on
 ```
 
 ## helm & chart
@@ -184,9 +190,23 @@ sum(container_memory_working_set_bytes) by (container_name) / sum(label_join(kub
 
 ## Minikube
 * container runtime is prerequiste like docker, podman etc
+* On cloud providers that support load balancers, an external IP address would be provisioned to access the Service. On minikube, the LoadBalancer type makes the Service accessible through the minikube service command.
 ```
 brew install minikube
 minikube start --driver=docker
+
+kubectl create deployment hello-node --image=registry.k8s.io/echoserver:1.4
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+minikube service hello-node
+
+minikube addons list
+minikube addons enable metrics-server
+minikube addons disable metrics-server
+
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+minikube stop
+minikube delete # delete vm, avoid this unless needed again.
 ```
 
 ## Kind
