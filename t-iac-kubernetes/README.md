@@ -189,7 +189,7 @@ sum(container_memory_working_set_bytes) by (container_name) / sum(label_join(kub
 ```
 
 ## Minikube
-* container runtime is prerequiste like docker, podman etc
+* container runtime is prerequiste like docker, podman, hyperkit etc
 * On cloud providers that support load balancers, an external IP address would be provisioned to access the Service. On minikube, the LoadBalancer type makes the Service accessible through the minikube service command.
 ```
 brew install minikube
@@ -207,6 +207,9 @@ kubectl delete service hello-node
 kubectl delete deployment hello-node
 minikube stop
 minikube delete # delete vm, avoid this unless needed again.
+
+minikube config set cpu <whatever>
+minikube config set memory <whatever>
 ```
 
 ## Kind
@@ -217,3 +220,48 @@ kind create cluster #default one
 kind create cluster --name kind-2
 kind get clusters
 ```
+
+## Helm
+
+
+## Storage
+
+
+## Network
+
+## kubernetes components
+![k8-components](./k8.png)
+
+* Control plane components
+    * kube-apiserver
+    * ectc
+    * kube-scheduler
+    * kube-controller-manager
+    * cloud-controller-manager
+* Node components
+    * kubelet: agent that run on each node in cluster. it make sure containers are running inpod.
+    * kube-proxy: network proxy that run on each node in cluster. Maintain network rules that allow comms to pods from inside & outside cluster.
+    * container runtime: responsible for running container. it supports runtime such as containered, CRI-O, other impl of CRI
+
+
+## Kubernetes GCP
+Single zone clusters
+* master and nodes both run in only one zone
+* if cluster name does have zone suffix then it is zonal cluster. i.e `asia-east1-a`, `asia-east1-b`
+* if zone outage then service outage
+
+Multi zonal clusters
+* master run  in only one zone
+* nodes distributed among multiple zone.
+* if cluster name does have zone suffix then it is zonal cluster. i.e `asia-east1-a`, `asia-east1-b`
+* if master zone outage, service will still be working though won't be able to configure until master is up
+
+Regional clusters
+* master distributed among multiple zone
+* nodes distrubuted among multiple zone
+* if cluster name does not have zone suffix then it is reginal cluster. i.e `asia-east1`
+* default no of zone: 3
+* default no of nodes per zone: 3
+* default no of masters: 3
+
+## Kubernetes AWS
