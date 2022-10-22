@@ -240,7 +240,7 @@ kind get clusters
     * cloud-controller-manager
 * Node components
     * kubelet: agent that run on each node in cluster. it make sure containers are running inpod.
-    * kube-proxy: network proxy that run on each node in cluster. Maintain network rules that allow comms to pods from inside & outside cluster.
+    * kube-proxy: network proxy that run on each node in cluster,  implementing part of the Kubernetes Service concept.. Maintain network rules that allow comms to pods from inside & outside cluster.
     * container runtime: responsible for running container. it supports runtime such as containered, CRI-O, other impl of CRI
 
 
