@@ -124,4 +124,4 @@ colima start --cpu 6 --memory 12 --disk 200 --with-kubernetes
 ```
 
 ## Container and Kubernetes and Docker
-* 
+* dockershim has been removed from k8 1.24, so we need to install CRI compliant runtime like containerd, cri-o etc on each node.
