@@ -60,8 +60,9 @@ package management
 ```
 go mod init moduleName
 go mod tidy // add missing & remove unused module & updated go.mod
+go mod download // mainly to prefill cache
 
-go get -d moduleName //download->install, use -ddeprecated to use it for build & install
+go get -d moduleName //download->install, use -ddeprecated to use it for build & install. Now can only be run inside module aware project.
 go install //build->install(main|pkg $GOPATH/[bin|pkg]),i.e compile, recommended build & install
 go build // build & leave the output in current directory
 
@@ -262,11 +263,11 @@ as dependency. can't call method on pkg, u have to call through struct object on
 server request & response
 
 Two way to read request body 2nd one is preferred
-1. json.Unmarshal([]bye)  read entire request in one go
+1. json.Unmarshal([]bye, &data)  read entire request in one go
 2. json.NewDecoder(io.Reader).Decode(interface{}) preferred as give early validation error
 
 Simillary two way to write response body, 2nd one is preffered
-1. json.Unmarshal([]bye, interface{})  read entire request in one go
+1. json.marshal(data)  read entire request in one go
 2. json.NewEncoder(io.Writer).Encode(interface{}) preferred as give early validation error
 
 

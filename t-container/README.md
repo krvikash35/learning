@@ -109,6 +109,8 @@ KVM
     * Filesystem sharing:  Reverse SSHFS
     * Port forwarding: ssh -L, automated by watching /proc/net/tcp and iptables events in the guest
     * Support various linux distro as gues os: ubuntu, Alpine, Debian etc
+    * built-in support for containerd and nerdctl(Docker-compatible containerd ctl). Other runtime can also be used.
+    * uses k3s for kubernetes
 * You can use this as alernative to docker for building image and runing container.
 * you can use this as alternative to minikube
 
@@ -120,8 +122,123 @@ colima start --help
 colima start --edit
 colima start --runtime containerd
 colima start --kubernetes
-colima start --cpu 6 --memory 12 --disk 200 --with-kubernetes
+colima start --cpu 6 --memory 12 --disk 200 --kubernetes
 ```
 
 ## Container and Kubernetes and Docker
-* dockershim has been removed from k8 1.24, so we need to install CRI compliant runtime like containerd, cri-o etc on each node.
+* A Pod is composed of a group of application containers in an isolated environment with resource constraints
+* dockershim(containerd) has been removed from k8 1.24, so we need to install CRI compliant runtime like containerd, cri-o etc on each node.
+* kubelet(acting as client) communicate with CRI shim (acting as server) over unix socket using grpc framework.
+![](./k8-cri.png)
+
+
+## Docker
+
+### Options
+* `-p, --publish`: is way of mapping (at runtime) container port to host port. If no port given then docker will randomly assign some port from host.
+* `-P, --publish-all`: Publish all exposed ports to random ports
+* `--expose`: 
+* `-i`: interactive
+* `-t`: tty
+* `--mount` or `-v` or `--volume`: mount is more verbose but easier to understand. ordering is important in -v.
+```
+--mount type=bind,source="$(pwd)"/target,target=/app \
+-v "$(pwd)"/target:/app
+
+source=myvol2,target=/app
+-v myvol2:/app
+
+type: bind/volume/tmpfs
+source/src: host directory/path
+target/destination/dst: container directory/path
+```
+* `-e`: Set environment variables
+* `-d`: Run container in background and print container ID
+### dockerfile
+* `EXPOSE`: way of documenting in Dockerfile that tells which port container is using. It does not open any port on host.
+* `FROM`: base image
+```
+FROM golang:latest #320MB
+FROM golang:1.19
+FROM golang:1.19-alpine
+FROM golang:alpine #120MB
+```
+* `RUN`: will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile.
+```
+RUN <command>                           #shell form, command are run in shell.
+RUN ["executable", "param1", "param2"]  #exec form
+
+/bin/sh -c                              #default on linux
+cmd /S /C                               #default on windows
+```
+
+* `CMD`: specifies arguments that will be fed to the ENTRYPOINT.. when container is started this cmd is run. default cmd id `bash`.
+* `LABEL`: add metadata to image as key-value pair.
+```
+LABEL <key>=<value> <key>=<value> <key>=<value> ...
+```
+* `ENV`: 
+```
+ENV MY_NAME="John Doe" MY_DOG=Rex\ The\ Dog \
+    MY_CAT=fluffy
+```
+* `ADD`: same as COPY but with added handling for url and tar. ADD will unpack tar. Use COPY wherever possible to avoid getting suprised result.
+```
+ADD [--chown=<user>:<group>] [--checksum=<checksum>] <src>... <dest>
+ADD [--chown=<user>:<group>] ["<src>",... "<dest>"]
+
+ADD hom* /mydir/
+```
+* `COPY`: same as ADD but without the tar and remote URL handling.
+```
+COPY hom* /mydir/
+```
+* `ENTRYPOINT`: specifies a command that will always be executed when the container starts.default entrypoint is `/bin/sh`. all the cmd are run via given entrypoint. Initially it was not an option later on docker added this to provide custom entrypoint.
+```
+ENTRYPOINT ["executable", "param1", "param2"] #exec form, preffered
+ENTRYPOINT command param1 param2 #shell form
+
+docker run -i -t ubuntu bash --> /bin/sh -c bash
+
+docker run redisimg redis -H something -u toto get key # longer cli
+ENTRYPOINT ["redis", "-H", "something", "-u", "toto"]
+docker run redisimg get key #small cli with proper entrypoint
+```
+* `VOLUME`: creates a mount point with the specified name and marks it as holding externally mounted volumes from native host or other containers. host directory is declared at container run-time to keep img portablity in mind since host dir is not gauranted.
+```
+VOLUME ["/data"]
+VOLUME /myvol
+```
+* `USER`: sets the user name (or UID) and optionally the user group (or GID) to use as the default user and group for the remainder of the current stage.
+```
+RUN net user /add patrick
+USER patrick
+```
+* `WORKDIR`: set the working directory for any furthur instruction in dockerfile.
+* `ARGS`: 
+
+
+### Commands
+```
+docker image ls
+docker container ls
+docker network ls
+docker volume ls
+
+docker build
+docker container run -it --rm -p 80:80 ngnix
+
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+docker run -itd -e POSTGRES_USER=baeldung -e POSTGRES_PASSWORD=baeldung -p 5432:5432 -v /data:/var/lib/postgresql/data --name postgresql postgres
+
+docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+docker run --name some-redis -d redis
+```
+
+### volume vs bind mount
+* any data written in container's union file system will be lost once container stop running. But generally for statefull container like db data, config etc, we want persistent data.
+* bind mount exist on host file system and being managed by host. Process outside docker can also modify it. Good for live reloading, config editing directly from host without going into contaienr. limited functionality compare to volume
+* volume can also be implemented on host but docker will manage them for us and they can not be accessed outside docker. This reside under $docker-data-dir/volumes which is /var/lib/docker.
+* volume can be created independently or while during container creation. Given volume can be mounted into multiple container. 
+* volume bind is simillar to bind mount except volume is managed by docker & isolated from core functinality of host machine.
+* type: `bind`, `volume`, `tmpfs`

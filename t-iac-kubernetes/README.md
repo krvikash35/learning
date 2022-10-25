@@ -63,6 +63,8 @@ kubectl exec -it mypod bash -c mycontainer
 kubectl create deployment hello-node --image=registry.k8s.io/echoserver:1.4
 kubectl apply -f ./nginx-deployment.yaml # yaml file can be web url
 kubectl expose deployment hello-node --type=LoadBalancer --port=8080 # expose this port app is listening on
+
+kubectl cluster-info
 ```
 
 ## helm & chart
@@ -121,7 +123,9 @@ helm install example-chart example-chart-0.1.0.tgz
   * `Minikube`: very simple, minimal. single node cluster. no way to add other node.
   * `Kubeadm`: can add 1 master, N worker node. Require powerfull laptop.
   * `kind`: It support all sort of cluster. N master, N worker. require docker. complicated external networking.
-  * `k3s`: lightweight version of kubernetes. some feature missing.
+  * `k3s`: lightweight version of kubernetes. some feature missing. uses sqlite as db compare to etcd/postgres in k8
+  * `k9s`:
+  * `rancher`: 
 
 
 ## Kubernetes Metrics
