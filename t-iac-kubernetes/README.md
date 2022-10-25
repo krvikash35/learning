@@ -18,6 +18,25 @@
     * ExternalName
 ![](./service.png)
 
+### nodeport
+* `port`: is used when one service wants to talk to other service.
+* `nodePort`: is used when someone wants to talk to service outside cluster. Control plane will auto assign port from available ports(default: 30000-32767). We can assign manually but it might lead to collision if same port is already allocated. traffic--->nodePort-->port-->targetPort
+* `targetPort`: it is actual port that service is listening on inside container.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: MyApp
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007
+```
+
 ## Ingress
 * ingress can also be used to expose service under same ip address using different name. mainly used for http service.
 * it does not expose arbitrary ports or protocol. To expose services than http/https(i.e may be grpc), we require servcie `NodePort` or `LoadBalancer`.
@@ -43,6 +62,9 @@ kubectl get pods mypod -o jsonpath='{.spec.containers[*].name}'
 
 kubectl get events
 kubectl config view
+kubectl config get-clusters
+kubectl config get-contexts
+kubectl config use-context CONTEXT_NAME
 
 kubectl delete pod nginx
 kubectl scale deployment hello-node --replicas 2
