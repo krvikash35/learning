@@ -11,14 +11,17 @@
 
 ## service
 * it is used to expose the service
+* K8s relies on proxying to forward inbound traffic to backend rather than using multi-ip dns for round-robin resolution. It is proxied via kube-proxy that run on each node. 
+* kube-proxy in ip-table mode select random backend &  has low overhead because traffic is handled at linux low level. while in user mode, it can check if pod is healthy else direct traffic to other backend pod.
 * type
-    * clusterIP: reachable within the cluster
-    * NodePort: extension of clusterIP. reachable from outside cluster and external traffic
-    * LoadBalancer: extension of Nodeport. expose service externaly using cloud own(aws, gcp) load balancer
-    * ExternalName
+    * clusterIP: Exposes the service on a cluster-internal IP. Choosing this value makes the service only reachable from within the cluster. This is the default ServiceType.
+    * NodePort: extension of clusterIP. Exposes the service on each Node’s IP at a static port (the NodePort). A ClusterIP service, to which the NodePort service will route, is automatically created. You’ll be able to contact the NodePort service, from outside the cluster, by requesting `<NodeIP>:<NodePort>`.
+    * LoadBalancer: extension of Nodeport.  Exposes the service externally using a cloud provider’s(gcp, aws etc) load balancer. NodePort and ClusterIP services, to which the external load balancer will route, are automatically created.
+* k8s create dns record for service/pod. we can use service name instead of ip to access it.
+* default fqdn: `<service-name>.<namespace>.svc.cluster.local`. No need to use fqdn to access service in same namespace. i.e `nslookup simple-node-server.default.svc.cluster.local` will return cluster ip of service.
 ![](./service.png)
 
-### nodeport
+### NodePort
 * `port`: is used when one service wants to talk to other service.
 * `nodePort`: is used when someone wants to talk to service outside cluster. Control plane will auto assign port from available ports(default: 30000-32767). We can assign manually but it might lead to collision if same port is already allocated. traffic--->nodePort-->port-->targetPort
 * `targetPort`: it is actual port that service is listening on inside container.
@@ -37,8 +40,32 @@ spec:
       nodePort: 30007
 ```
 
+### LoadBalancer
+*  The cloud provider decides how it is load balanced. The cloud-controller-manager component then configures the external load balancer to forward traffic to that assigned node port.
+* If you specify a loadBalancerIP but your cloud provider does not support the feature, the loadbalancerIP field that you set is ignored.
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+  clusterIP: 10.0.171.239
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.0.2.127
+```
+
 ## Ingress
 * ingress can also be used to expose service under same ip address using different name. mainly used for http service.
+* You must have an Ingress controller( i.e `ngnix-ingress`) to satisfy an Ingress. Only creating an Ingress resource has no effect.
 * it does not expose arbitrary ports or protocol. To expose services than http/https(i.e may be grpc), we require servcie `NodePort` or `LoadBalancer`.
 
 Ingress controller: 

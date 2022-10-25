@@ -120,9 +120,11 @@ colima --help
 colima start
 colima start --help
 colima start --edit
-colima start --runtime containerd
+colima start --runtime containerd --network-address
 colima start --kubernetes
 colima start --cpu 6 --memory 12 --disk 200 --kubernetes
+
+colima list
 ```
 
 ## Container and Kubernetes and Docker
