@@ -1,0 +1,6 @@
+FROM golang:alpine
+WORKDIR /app
+COPY go-server.go ./
+RUN go build -o server *.go
+RUN ls -la
+CMD [ "./server" ]

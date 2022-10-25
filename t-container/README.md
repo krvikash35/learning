@@ -225,14 +225,18 @@ docker container ls
 docker network ls
 docker volume ls
 
-docker build
+
+docker build -f go-server-dockerfile -t simple-go-server .
 docker container run -it --rm -p 80:80 ngnix
 
+docker run --rm --name simple-go-server -p 5001:5000 simple-go-server
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 docker run -itd -e POSTGRES_USER=baeldung -e POSTGRES_PASSWORD=baeldung -p 5432:5432 -v /data:/var/lib/postgresql/data --name postgresql postgres
 
 docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
 docker run --name some-redis -d redis
+docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:tag
+
 ```
 
 ### volume vs bind mount

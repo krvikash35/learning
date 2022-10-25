@@ -7,6 +7,6 @@ const ping = (_, res) => {
 }
 const server = http.createServer(ping)
 const port = process.env.PORT || 5000
-const host = process.env.HOST || 'localhost'
+const host = process.env.HOST || '0.0.0.0'
 server.listen(port, host)
 console.log(`started server at ${host}:${port}`)
