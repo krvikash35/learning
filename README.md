@@ -1,2 +1,18 @@
 # learning
 anything I learn on d2d basis
+
+## todo
+* http1 vs http1.1 vs http2 vs grpc
+* json vs protobuf, all language sample
+* distributed config store: etcd, consule, zookeeper
+* coredns
+* proxy & load balancer: ngnix, haproxy, envoy, Traefik, contour(ingress controller for k8s based on envoy), istio(k8s service mesh & ingress based on envoy & consule), ambassador
+    * circuit breaker
+    * retry
+    * canary
+    * service discovery
+    * layer 4(tcp) proxy
+    * layer 7(http) proxy
+    * gateway api
+    * api management
+* api gateway: kong
