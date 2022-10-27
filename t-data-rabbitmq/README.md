@@ -44,3 +44,7 @@ msg don't directly go to queue. It first goes to exchange & it is responsible fo
 ## management portal
 * default port: `15672`
 * default usr/pwd: `guest/guest`
+
+
+## Reference
+* http://clojurerabbitmq.info/articles/guides.html

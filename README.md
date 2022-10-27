@@ -4,9 +4,11 @@ anything I learn on d2d basis
 ## todo
 * http1 vs http1.1 vs http2 vs grpc
 * json vs protobuf, all language sample
-* distributed config store: etcd, consule, zookeeper
+* distributed config/data store: etcd, consul, zookeeper
+    * etcd for docker image storage
+    * consul: consul agent on k8s/vm can update service backends to consule server. HAProxy can also be enabled for consul.
 * coredns
-* proxy & load balancer: ngnix, haproxy, envoy, Traefik, contour(ingress controller for k8s based on envoy), istio(k8s service mesh & ingress based on envoy & consule), ambassador
+* proxy & load balancer: ngnix, haproxy, envoy, Traefik, contour(ingress controller for k8s based on envoy), istio(k8s service mesh & ingress based on envoy & consule), ambassador, gloo
     * circuit breaker
     * retry
     * canary
