@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func getEnv(key, defaultValue string) string {
@@ -21,6 +22,12 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 	data, _ := json.Marshal(map[string]string{"message": "ping from go server"})
 	w.Write(data)
 }
+func pingWaitHandler(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(2000 * time.Millisecond)
+	w.WriteHeader(http.StatusOK)
+	data, _ := json.Marshal(map[string]string{"message": "ping from go server"})
+	w.Write(data)
+}
 
 func main() {
 	host := getEnv("HOST", "0.0.0.0")
@@ -28,6 +35,7 @@ func main() {
 	addr := fmt.Sprintf("%s:%s", host, port)
 
 	http.HandleFunc("/ping", pingHandler)
+	http.HandleFunc("/ping_wait", pingWaitHandler)
 	log.Printf("starting server at %s", addr)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatalf("could not start server at %s due to %s", addr, err)
