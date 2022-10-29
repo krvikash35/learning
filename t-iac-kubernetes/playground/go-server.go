@@ -24,7 +24,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 }
 func pingWaitHandler(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(2000 * time.Millisecond)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusInternalServerError)
 	data, _ := json.Marshal(map[string]string{"message": "ping from go server"})
 	w.Write(data)
 }
