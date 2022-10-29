@@ -24,7 +24,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	host := getEnv("HOST", "0.0.0.0")
-	port := getEnv("PORT", "5000")
+	port := getEnv("PORT", "5001")
 	addr := fmt.Sprintf("%s:%s", host, port)
 
 	http.HandleFunc("/ping", pingHandler)

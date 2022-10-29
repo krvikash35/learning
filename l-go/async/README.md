@@ -1,0 +1,5 @@
+* Go 1.5 is set to make the default value of GOMAXPROCS the same as the number of CPUs on your machine
+* Programs that perform parallel computation should benefit from an increase in GOMAXPROCS. However, be aware that concurrency is not parallelism.
+* However, if program is meant only for concurrency but not for parallelism might not benefit with multi-core usage since other core can be used by os to schedule other process/thread and just use single thread for main program. 
+* Sometime it might even become slower if the program is more of heavy io than being true intrinsic parallel becausing sending data b/w threads involve costly context switching.
+* Go's goroutine scheduler is not as good as it needs to be. In future, it should recognize such cases and optimize its use of OS threads. For now, GOMAXPROCS should be set on a per-application basis
