@@ -34,7 +34,12 @@
 
 ### Automatic memory management
 * In language like go, java, javascript etc are memory are managed(allocation/deallocation) by lang runtime.
-
+* Compile already knows where to allocate the memory using the language syntax primitive. Some variable have local scope while other are global.
+* If compiler detect local variable then it allocate to `stack`, which are automatically freed.
+* If compiler detect non-local variable then it allocate to `heap` which has to be later freed by runtime called `garbage collector`.
+* In order to know which memory is required or not in heap, it uses graph data structure through reference system.
+* Go’s garbage collector is a non-generational concurrent, tri-color mark and sweep garbage collector.
+* GC run at fixed regular interval for some duration. This time, program are stoped to run called `stop the world` and put a `write barrier` then worker perform the mark and sweep garbage collection. This result in reducing heap size by freeing memory.
 ## Go compiler
 * go lang has been defined by spec, so there can be many implemnantation compiler. currently two compiler `gc` and `gccgo`
 * Gc is the original compiler, and the go tool uses it by default.
