@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -33,6 +34,9 @@ func main() {
 	host := getEnv("HOST", "0.0.0.0")
 	port := getEnv("PORT", "5001")
 	addr := fmt.Sprintf("%s:%s", host, port)
+
+	log.Printf("logical cpus: %+v", runtime.NumCPU())
+	log.Printf("max procs: %+v", runtime.GOMAXPROCS(0))
 
 	http.HandleFunc("/ping", pingHandler)
 	http.HandleFunc("/ping_wait", pingWaitHandler)
