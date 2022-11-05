@@ -42,5 +42,19 @@ loop.close()
 async def py35_coro():
     await stuff()
 ```
+
+## async timeout
+```python
+import threading
+def callback(arg):
+    print(f"callback arg: {arg}")
+    return
+
+
+def main():
+    timer = threading.Timer(5.0, lambda: callback(arg))
+    timer.start()
+
+```
 ## References
 * https://nothingbutsnark.silvrback.com/how-the-heck-does-async-await-work-in-python-3-5

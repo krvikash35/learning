@@ -78,7 +78,7 @@ myFun(**kwargs)
 ## Error
 * `SyntaxError` 
 * Exception: `ZeroDivisionError` `TypeError` etc
-```
+```python
 try:
   fun(x)
 except:
@@ -102,4 +102,17 @@ try:
 except ZeroDivisionError as e:
     raise Exception('Smelly socks') from e  # this will not contain the stacktrace of lower one
     raise Exception('Smelly socks').with_traceback(e.__traceback__) # contain stacktrace of lower one as well
+```
+
+## format output
+```python
+print('%d %s cost $%.2f' % (6, 'bananas', 1.74))
+print('{0} {1} cost ${2}'.format(6, 'bananas', 1.74))
+print(f'{count} {fruit} cost ${amount}')
+```
+
+## lambda
+```python
+x = lambda a : a + 10
+print(x(5))
 ```
