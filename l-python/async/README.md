@@ -14,6 +14,14 @@
 * typical backend service are more io(network, db, file etc) heavy.
 * most language does provide way to create threads but its better to stick with language controlled co[go]-routine for trivial io heavey we app.
 
+## python modules
+* `threading` provide higher-level threading interfaces on top of the lower level _thread module.
+    * In CPython, due to the Global Interpreter Lock, only one thread can execute Python code at once.
+    *  If you want `cpu bound tasks`(use multi-core), better to use multiprocessing or concurrent.futures.ProcessPoolExecutor
+    * this threading module is still an appropriate model if you want to run `multiple I/O-bound tasks` simultaneously.
+* `concurrent.futures.ThreadPoolExecutor` offers a higher level interface to push tasks to a background thread without blocking execution of the calling thread, while still being able to retrieve their results when needed.
+* `queue` provides a thread-safe interface for exchanging data between running threads.
+* `asyncio` offers an alternative approach to achieving task level concurrency without requiring the use of multiple operating system threads.
 
 ## yeild, asyncio, async/await
 * asyncio != async/await, asyncio is framework that implement event loop and provide a way to use async/await syntax for async programming.
@@ -56,5 +64,61 @@ def main():
     timer.start()
 
 ```
+
+## with
+* `with` statement automatically manage the resource like `files`, `locks` etc. If these resource are not released then will casue memory leak. Other approach is `try/catch`
+```python
+with lock: #no need to call lock.acquire() or lock.release()
+    count += 1
+
+with open('file_path', 'w') as file: # no need to call file.close()
+    file.write('hello world !')
+
+file = open('file_path', 'w')
+try:
+    file.write('hello world')
+finally:
+    file.close()
+```
+
+## threading
+```python
+import threading
+
+class Thread(threading.Thread):
+    def __init__(self, t, *args):
+        threading.Thread.__init__(self, target=t, args=args)
+        self.start()
+count = 0
+lock = threading.Lock()
+
+def increment():
+    global count 
+    lock.acquire()
+    try:
+        count += 1    
+    finally:
+        lock.release()
+   
+def bye():
+    while True:
+        increment()
+        
+def hello_there():
+    while True:
+        increment()
+
+def main():    
+    hello = Thread(hello_there)
+    goodbye = Thread(bye)
+    
+    while True:
+        print count
+
+if __name__ == '__main__':
+    main()
+
+```
+
 ## References
 * https://nothingbutsnark.silvrback.com/how-the-heck-does-async-await-work-in-python-3-5

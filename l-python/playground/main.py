@@ -29,5 +29,24 @@
 # if b is not None:
 #     print("not none")
 
-x = lambda a : a + 10
-print(x(5))
+# x = lambda a : a + 10
+# print(x(5))
+
+import asyncio
+import time
+
+async def main():
+    print('Hello ...')
+    await asyncio.sleep(3)
+    print('... World!')
+
+
+
+def hello():
+    main()
+    # asyncio.run(main())
+
+hello()
+print("h1")
+
+time.sleep(5.0)
