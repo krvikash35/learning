@@ -15,8 +15,10 @@
 * `Go Routine(G)`: These are small peice of code or function that can run concurrently and managed(scheduled) by user space code(goScheduler) for efficient use of os thread. These are kind of green thread or co-routine that are managed by user space code than kernel space code. Highly lightweigt and efficient.
     * Each goroutine are
 ### Blocking Call
-
+* i.e file i/o
+* scheduler create new system thread if current goroutine are blocked then rest other goroutine are run on this new thread. when blocked goroutine is ready then it is put back into LRQ.
 ### Non Blocking Call
+* like network i/o using plaform dependent lib like epoll(linux), kqueue(bsd) etc
 ### Work Stealing
 * goroutine(G) are distributed among multiple threads(M). It make sure that each threads are doing equal work. If one of the threads have finished all the assigned goroutines then scheduler will steal goroutine from other thread and run on this thread.
 
@@ -46,6 +48,48 @@
 * Gccgo is a different implementation with a different focus.
 * gccgo is slower to compile but produces more efficient cpu code. henc gccgo compiled code can run faster.
 * gc compiler support only popular processor x86 and ARM. While later support SPARC, MIPS etc.
+
+
+## go  concurrency premitive
+* goroutine
+* channel(buffered and non-buffered)
+* select over channel operation
+* range over channel operation
+* Atomic counter
+* Mutex
+* Timeout
+* Ticker
+* Worker Pool(using goroutine and channels)
+* WaitGroups
+
+
+
+### channels
+* By default, sends and receives block until the other side is ready. This allows goroutines to synchronize without explicit locks or condition variables.
+* Sends to a buffered channel block only when the buffer is full. Receives block when the buffer is empty. 
+* A select blocks until one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.
+* Only the sender should close a channel, never the receiver. Sending on a closed channel will cause a panic.
+
+
+
+```go
+ticker := time.NewTicker(1 * time.Second)
+for {
+    select {
+    case t := <-ticker.C:
+        fmt.Println("Ticking..")
+    case <-time.After(5 * time.Second):
+        ticker.Stop()
+    }
+}
+```
+
+```go
+ticker := time.NewTicker(1 * time.Second)
+for _ = range ticker.C {
+    fmt.Println("Ticking..")
+}
+```
 ## References
 * https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
 * https://medium.com/@ankur_anand/illustrated-tales-of-go-runtime-scheduler-74809ef6d19b
