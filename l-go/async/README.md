@@ -70,7 +70,11 @@
 * A select blocks until one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.
 * Only the sender should close a channel, never the receiver. Sending on a closed channel will cause a panic.
 
-
+```go
+import "sync/atomic"
+var ops uint64
+atomic.AddUint64(&ops, 1)
+```
 
 ```go
 ticker := time.NewTicker(1 * time.Second)
@@ -90,6 +94,28 @@ for _ = range ticker.C {
     fmt.Println("Ticking..")
 }
 ```
+
+```go
+var m sync.Mutex
+var counter int
+func inc(){
+    m.Lock()
+    defer m.Unlock()
+    counter ++
+}
+
+func main(){
+    var wg sync.WaitGroup
+    
+    wg.add(3)
+    go inc()
+    go inc()
+    go inc()
+
+    wg.Wait()
+}
+```
+
 ## References
 * https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html
 * https://medium.com/@ankur_anand/illustrated-tales-of-go-runtime-scheduler-74809ef6d19b
