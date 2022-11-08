@@ -79,3 +79,19 @@ protoc -I=proto --go_out=go proto/*.proto
 ## proto2 vs proto3
 * proto3 remove support of `required` field.
 * proto3 support cannonical encoding in json.
+
+
+## Python
+```python
+class Person(message.Message):
+  __metaclass__ = reflection.GeneratedProtocolMessageType
+
+  class PhoneNumber(message.Message):
+    __metaclass__ = reflection.GeneratedProtocolMessageType
+    DESCRIPTOR = _PERSON_PHONENUMBER
+  DESCRIPTOR = _PERSON
+
+class AddressBook(message.Message):
+  __metaclass__ = reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _ADDRESSBOOK
+```
