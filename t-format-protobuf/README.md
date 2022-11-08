@@ -1,3 +1,10 @@
+* Highly compact, lightweight, binary, more efficient data interchagne format compare to json.
+* It is mostly suitable for service to service. Though it can be used for web to service but javascript does not have proper support for protobuf/grpc.
+* It is best suited to use with grpc service though it can be used with http service as well.
+* Bit difficult to debug and not self human operatable like json.
+* very strict typing system, which make contract less brittle.
+* designed to support backward and forward compatibility 
+
 ## Syntax
 ```
 syntax = "proto3";
