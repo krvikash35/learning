@@ -89,6 +89,11 @@ finally:
 except (RuntimeError, TypeError, NameError):
 except ValueError:
 
+except Exception as e: print(e) # does not print full exception msg
+except Exception as e: print(repr(e))
+except Exception: traceback.print_exc() # print full exception
+except Exception: traceback.traceback.format_exc()
+
 raise NameError('HiThere')
 raise ValueError
 raise CustomError("custom error")
