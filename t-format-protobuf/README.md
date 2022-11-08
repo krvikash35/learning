@@ -48,6 +48,13 @@ service SearchService {
 
 
 ## Packages
+* protobuf itself can be written/organised into multipl package. This package is different from the one provided for lang specific via option.
+* each language have different concept of package, hence protobuf support this via option. It will help generate file in proper package.
+* some langugae does not have concept of package, so its not applicable for them.
+```
+option go_package = "proto.person";
+option java_package = "proto.person";
+```
 
 ## protobuf and language
 * protobuf is supported by all major language.
@@ -82,6 +89,8 @@ protoc -I=proto --go_out=go proto/*.proto
 
 
 ## Python
+* `SerializeToString()`: to encode
+* `ParseFromString()`: to decode
 ```python
 class Person(message.Message):
   __metaclass__ = reflection.GeneratedProtocolMessageType
@@ -95,3 +104,7 @@ class AddressBook(message.Message):
   __metaclass__ = reflection.GeneratedProtocolMessageType
   DESCRIPTOR = _ADDRESSBOOK
 ```
+
+## Go
+* `proto.Marshal()`: to encode
+* `proto.Unmarshal()`: to decode
