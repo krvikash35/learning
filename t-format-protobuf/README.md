@@ -50,6 +50,28 @@ service SearchService {
 ## Packages
 
 ## protobuf and language
+* protobuf is supported by all major language.
+* all language support will have two part. one is compiler and other is runtime.
+    * `protoc compiler`: [here](https://github.com/protocolbuffers/protobuf/releases)
+    * runtime: some runtime also contains a plugin to invoke compiler.
+        * [go runtime](https://github.com/protocolbuffers/protobuf-go)
+        * [python runtime](https://github.com/protocolbuffers/protobuf/tree/main/python)
+        * [java runtime](https://github.com/protocolbuffers/protobuf/tree/main/java)
+* `protoc` is the compiler that will produce language specific file. i.e
+    * for go, it generate `.pb.go` file with a type for each message type in your file.
+    * for c, it generate `.h` and `.cc` file
+    * for java, it generate `.java` file with a class for each message type, as well as a special Builder class for creating message class instances.
+    * for python, its bit different. the Python compiler generates a module with a static descriptor of each message type in your .proto, which is then used with a metaclass to create the necessary Python data access class at runtime.
+
+```
+brew install protobuf
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest //this step only for go, skip for other lang
+protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto
+
+protoc -I=proto --python_out=python proto/*.proto
+protoc -I=proto --java_out=java proto/*.proto
+protoc -I=proto --go_out=go proto/*.proto
+```
 
 ## encoding
 * bools and enum are encoded as int32. false -> 00 true -> 01.
