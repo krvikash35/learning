@@ -56,6 +56,11 @@ package management
 * Go 1.1 brought module support. go.mod file like package.json & pipfile. machine generated go.sum like package-lock.json
 *  go tool run in legacy gopath mode pre go1.1 , post that run in module-aware mode. i.e  go build/install/run automatically add dependency if it has go.mod file
 
+get vs install
+* `go install` is used to install a binary, not a package. but can install package in module mode.
+* `go get` to download a package
+* `go mod tidy` scans your project and updates the go.mod file and downloads all dependencies mentioned in the go.mod file
+* `go mod download` only downloads the dependencies from go.mod, without modifications of the go.mod file
 
 ```
 go mod init moduleName
