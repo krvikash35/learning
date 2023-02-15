@@ -18,3 +18,14 @@ anything I learn on d2d basis
     * gateway api
     * api management
 * api gateway: kong
+* web
+    * gulp -> webpack -> rollup -> esbuild -> swc -> turbopack
+    * babel -> ts
+    * react, vue, svelete
+    * next.js, remix, gatsby
+    * BEM css, css module, css-in-js(styled, emotion), css-in-js(zero runtime:linaria)
+    * modern css
+    * bootstrap, tailwind
+    * mui, antd
+
+
