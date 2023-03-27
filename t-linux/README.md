@@ -143,6 +143,8 @@ Down Arrow, Enter, e, j    One line forward.
 Up Arrow, y, k             One line backward.
 Space bar, Page Down       One page forward.
 Page Up, b                 One page backward.
+G                          go to end of file
+g                          go to start of file
 Right Arrow                Scroll right.
 Left Arrow	               Scroll left.
 /[string]                  search forward for string
