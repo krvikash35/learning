@@ -25,8 +25,49 @@ pg_is_in_recovery();
 
 select * from pg_replication_slots ;
 select * from pg_settings where name like '%autovacuum%';
-select sum(size) from pg_ls_waldir()
+select sum(size) from pg_ls_waldir();
+SELECT sum(numbackends) FROM pg_stat_database;
+
+EXPLAIN ANALYZE SELECT * FROM users ORDER BY username;
 ```
+
+```
+SELECT
+  pid,
+  user,
+  pg_stat_activity.query_start,
+  now() - pg_stat_activity.query_start AS query_time,
+  query,
+  state,
+  wait_event_type,
+  wait_event
+FROM pg_stat_activity
+WHERE (now() - pg_stat_activity.query_start) > interval '5 minutes';
+
+pg_cancel_backend(pid);
+pg_terminate_backend(pid);
+```
+
+```
+select pid, 
+       usename, 
+       pg_blocking_pids(pid) as blocked_by, 
+       query as blocked_query
+from pg_stat_activity
+where cardinality(pg_blocking_pids(pid)) > 0;
+```
+
+```
+CREATE TABLE users (
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username text NOT NULL);
+INSERT INTO users (username)
+SELECT 'person' || n
+FROM generate_series(1, 1000) AS n;
+ANALYZE users;
+```
+
+
 
 * dd
 * psql -h localhost -p 5432 -U rolename dbname connect to db using psql client

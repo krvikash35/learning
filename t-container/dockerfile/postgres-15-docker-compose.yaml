@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:15.2
+    container_name: postgres-15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - vol:/data/postgres
+    ports:
+      - "5431:5432"
+    networks:
+      - net
+    restart: unless-stopped
+
+volumes:
+  vol:
+networks:
+  net:
+    name: net
