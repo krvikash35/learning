@@ -177,6 +177,10 @@ kubectl get pods --show-labels --all-namespaces  | grep ingress | grep controlle
 kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 ```
 
+```
+kubectx
+stern podRegex -c containerRegex
+```
 ## helm & chart
 * [how to use helm3 to install software on k8](https://www.digitalocean.com/community/tutorials/how-to-install-software-on-kubernetes-clusters-with-the-helm-3-package-manager)
 * chart bootstrap resource i.e telegraf deployment on k8 cluster using helm pkg manager

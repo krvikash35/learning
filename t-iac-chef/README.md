@@ -18,6 +18,7 @@ knife cookbook upload -a
 knife node list
 knife node edit client1
 EDITOR=vim knife node edit `hostname` -c /etc/chef/client.rb
+EDITOR=vim knife node show `hostname` -c /etc/chef/client.rb
 
 sudo chef-client
 sudo chef-client -o 'recipe[recipeName]' # to avoid restart of other process, run specific recipe
