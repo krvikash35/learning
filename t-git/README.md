@@ -39,6 +39,12 @@ git config --local --edit                       // edit local config in editor
 git config --global url.ssh://git@source.golabs.io/.insteadOf https://source.golabs.io/
  ```
 
+```
+git revert sha1
+git revert sh1 sha2
+git revert --no-commit sh1 sha2
+git revert --no-commit HEAD~2..
+```
  ## gitflow vs github flow
 
  ### github flow

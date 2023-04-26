@@ -45,6 +45,13 @@ kafka-consumer-groups  --list --bootstrap-server localhost:9092
 kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group test-group
 ```
 
+
+```
+kcat -C -t topic -b broker -c 1
+kcat -C -t topic -b broker -c 1 | protoc decode_raw
+kcat -C -t topic -b broker -c 1 | protoc --decode=pkg.msg  ./proto/msg.proto
+
+```
 ## brew kafka binaries
 * connect-distributed
 * connect-standalone

@@ -100,7 +100,9 @@ process
 
 networking
 ```
-
+tailnet host port
+nc host port
+echo "hello" | nc host port
 ```
 
 disk
