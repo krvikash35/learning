@@ -48,8 +48,11 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group test-
 
 ```
 kcat -C -t topic -b broker -c 1
-kcat -C -t topic -b broker -c 1 | protoc decode_raw
+kcat -C -t blacklist-history-log -b localhost:9092 -o -1  -q -D "" | protoc --decode_raw
 kcat -C -t topic -b broker -c 1 | protoc --decode=pkg.msg  ./proto/msg.proto
+
+cd to proto source directory where package start
+kcat -C -t hello-log -b localhost:9092 -o -1  -q -e  -D "" | protoc --decode=abc.com.HelloLogMessage  ./mycompany/customer/HelloLog.proto
 
 ```
 ## brew kafka binaries
