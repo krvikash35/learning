@@ -224,12 +224,7 @@ service sshd status|start|stop|restart
 * dummy chat client-server model
 * to test server by sending dummy data 
 
-netstat --all --program | grep 6831
-lsof -i:6831
-netstat -l --> list only listening port
 
-telnet host
-telnet ip_address port
 
 Options
 ```
@@ -247,6 +242,15 @@ nc localhost 1234                   # connect to tcp server on localhost:1234
 
 nc -zv localhost 20-30              # port scan b/w 20 & 30
 nc -zv localhost 80 20 22           # port scan on 80, 20, 22
+```
+
+```
+netstat --all --program | grep 6831
+lsof -i:6831
+netstat -l --> list only listening port
+
+telnet host
+telnet ip_address port
 ```
 
 ## Other
