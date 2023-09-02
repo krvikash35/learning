@@ -224,6 +224,12 @@ service sshd status|start|stop|restart
 * dummy chat client-server model
 * to test server by sending dummy data 
 
+netstat --all --program | grep 6831
+lsof -i:6831
+netstat -l --> list only listening port
+
+telnet host
+telnet ip_address port
 
 Options
 ```
@@ -265,3 +271,15 @@ echo dkkd dkls >> filename   # append to file
 cat > somefile               # write to file using stdin
 ```
 
+
+```
+echo "vikash \n rohit \n kohli" | fzf
+echo "vikash kumar" | cut -d' ' -f1;
+cat $PROJECT_LIST_FILE | fzf | awk '{print $2}';
+
+name="vikash"
+if [[ $name =~ "kas" ]]; then
+  echo "substring match"
+  exit 0
+fi
+```
