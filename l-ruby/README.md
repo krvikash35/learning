@@ -17,3 +17,15 @@ Editor support
     * Solargraph ( need to `gem install solargraph;`)
     * rubocop-rails
 * 
+
+gem vs bundler
+* with `gem` you have to install all the gem individually i.e
+```
+gem install rubocop
+gem install xyz
+```
+* with `bundler`, you just have to declare all the gem in the file `Gemfile`, it will install all the gems i.e
+```
+gem 'rubocop', '~> 1.56', require: false
+gem 'rails', '~> 5.2.4'
+```
