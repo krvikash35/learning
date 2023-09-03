@@ -24,7 +24,7 @@ gem vs bundler
 gem install rubocop
 gem install xyz
 ```
-* with `bundler`, you just have to declare all the gem in the file `Gemfile`, it will install all the gems i.e
+* with `bundler`, you just have to declare all the gem in the file `Gemfile`, it will install all the gems with command `bundle install`
 ```
 gem 'rubocop', '~> 1.56', require: false
 gem 'rails', '~> 5.2.4'
