@@ -87,6 +87,19 @@ KVM
 * modern processors support virtualization extensions, such as Intel VT-x and AMD-V. These technologies provide the ability for a slice of the physical CPU to be directly mapped to the vCPU. Therefore the instructions meant for the vCPU can be directly executed on the physical CPU slice
 ![](./qemu-kvm.png)
 
+
+```
+uname -m
+
+architecture=""
+case $(uname -m) in
+    i386)   architecture="386" ;;
+    i686)   architecture="386" ;;
+    x86_64) architecture="amd64" ;;
+    arm)    dpkg --print-architecture | grep -q "arm64" && architecture="arm64" || architecture="arm" ;;
+esac
+```
+
 ## Container and MacOS
 * macos is unix but not linux.
 * All these container require linux host, so we require virtualization on macos in order to run linux os.
