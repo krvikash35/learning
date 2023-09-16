@@ -29,3 +29,16 @@ gem install xyz
 gem 'rubocop', '~> 1.56', require: false
 gem 'rails', '~> 5.2.4'
 ```
+
+require, load, autoload
+
+* unless you require file will not be loaded & you might get uninitialized error. so we can configure autoload to `application.rb` file
+```
+config.autoload_paths += %W(#{config.root}/lib)
+```
+
+run a single test file or single test
+```
+rake test TEST=tests/functional/accounts_test.rb
+rake test TEST=tests/functional/accounts_test.rb TESTOPTS="-n /paid accounts/"
+```

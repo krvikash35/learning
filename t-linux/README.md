@@ -287,3 +287,17 @@ if [[ $name =~ "kas" ]]; then
   exit 0
 fi
 ```
+
+
+```
+wget https://github.com/tsenart/vegeta/releases/download/v12.11.0/vegeta_12.11.0_linux_amd64.tar.gz
+tar xfz vegeta_12.11.0_linux_amd64.tar.gz
+echo "GET http://localhost:8081/ping" | vegeta attack -duration=5s -rate=2 | vegeta report
+```
+
+
+```
+jq - json cli processor, can filter
+fx - json cli viewer
+yh - yml cli viewer
+```
