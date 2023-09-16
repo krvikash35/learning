@@ -219,7 +219,8 @@ systemctl kill -s 9 {servicename}
 service sshd status|start|stop|restart
 ```
 
-## nc - netcat
+## Networking tool 
+* nc - netcat
 * port scan: without sending data to server, it can check if port are open
 * dummy chat client-server model
 * to test server by sending dummy data 
@@ -244,13 +245,26 @@ nc -zv localhost 20-30              # port scan b/w 20 & 30
 nc -zv localhost 80 20 22           # port scan on 80, 20, 22
 ```
 
-```
-netstat --all --program | grep 6831
-lsof -i:6831
-netstat -l --> list only listening port
 
+```
+netstat -a -> show all port 
+netstat -l -> list only listening port
+netstat -i -> list interface
+```
+
+```
+lsof -i:6831
+```
+
+```
 telnet host
-telnet ip_address port
+telnet host/ip port
+```
+
+```
+ngrep -d lo0 port 3001
+ngrep -d any
+ngrep host localhost port 3001
 ```
 
 ## Other
