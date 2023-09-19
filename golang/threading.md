@@ -14,11 +14,17 @@
     * Each M are assigned a set of goroutine to run using `local run queue(LRN)`.
 * `Go Routine(G)`: These are small peice of code or function that can run concurrently and managed(scheduled) by user space code(goScheduler) for efficient use of os thread. These are kind of green thread or co-routine that are managed by user space code than kernel space code. Highly lightweigt and efficient.
     * Each goroutine are
-### Blocking Call
+
+* Every P(logicalCPU) is assigned M(OSThread) & every M is assigned G(GoRoutine).
+* Global Run Queue(GRQ) -> It is for Goroutines that have not been assigned to a P yet.
+* Local Run Queue(LRQ) -> Each P is given a LRQ that manages the Goroutines.
+
+### Blocking Call (sync system call)
 * i.e file i/o
-* scheduler create new system thread if current goroutine are blocked then rest other goroutine are run on this new thread. when blocked goroutine is ready then it is put back into LRQ.
-### Non Blocking Call
-* like network i/o using plaform dependent lib like epoll(linux), kqueue(bsd) etc
+* scheduler create new system thread (`M2`) if current goroutine are blocked then rest other goroutine are run on this new thread. when blocked goroutine is ready then it is put back into LRQ.
+### Non Blocking Call (aysnc system call)
+* like network i/o using plaform dependent lib like epoll(linux), kqueue(bsd) etc.
+* schedule does not need to create new system thread, puts such goroutine on kernel queue(network poller), continue running others from LRQ on `M1`.
 ### Work Stealing
 * goroutine(G) are distributed among multiple threads(M). It make sure that each threads are doing equal work. If one of the threads have finished all the assigned goroutines then scheduler will steal goroutine from other thread and run on this thread.
 
