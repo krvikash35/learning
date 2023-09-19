@@ -186,7 +186,7 @@ option + del          delete word
 grep "pattern1\|pattern2"
 ```
 
-
+Logging
 
 ```
 journalctl
@@ -199,7 +199,20 @@ journalctl -o verbose
 journalctl --list-boots
 journalctl -u service-name.service
 journalctl -u service-name --no-pager
+
 journalctl --list-boots
+journalctl -b               -> since last boot
+journalctl -b -1            -> since 2nd last boot
+
+journalctl --since "1 hour ago"
+journalctl --since "2 days ago"
+$journalctl --since "2015-06-26 23:15:00" --until "2015-06-26 23:20:00"
+
+journalctl -u nginx.service         -> by unit
+journalctl -f                       -> like tail command, live log
+journalctl -n 50                    -> latest 50 entries
+journalctl -r                       -> reverse, sort by timestamp
+journalctl -o json-pretty|verbose|cat
 ```
 
 ## systemctl
