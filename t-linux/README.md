@@ -328,3 +328,16 @@ jq - json cli processor, can filter
 fx - json cli viewer
 yh - yml cli viewer
 ```
+
+tar
+```
+tar -xvzf jruby-dist-9.4.3.0-bin.tar.g
+```
+
+tty vs stty vs psedu-ttyps vs terminal/console vs shell
+
+* `tty` -> teletype. kind of device file that act like a terminal. real tty connect to physical terminal.
+* `pty` -> psedo teletype. act like terminal to process reading/writing. pty connect to program eg xterm, cmd window or shell window. befor pty, pipe was ther but no control, so pty solve this.
+* some tty are provided by kernel on behalf of hardware device. i.e input coming from keyboar & output going to text mode.
+* `pseduo-ttys`` are provided by programs called terminal emulator such a xterm
+`shell` -> i.e bash, zsh a shell interpreter, control tty to offer user experience

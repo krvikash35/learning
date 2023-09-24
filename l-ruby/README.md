@@ -42,3 +42,26 @@ run a single test file or single test
 rake test TEST=tests/functional/accounts_test.rb
 rake test TEST=tests/functional/accounts_test.rb TESTOPTS="-n /paid accounts/"
 ```
+
+Commands
+```
+gem list
+gem install byebug
+gem install byebug -v 10.0.2
+
+rake test TEST=tests/functional/accounts_test.rb
+rake test TEST=tests/functional/accounts_test.rb TESTOPTS="-n /paid accounts/"
+
+rails server -b 0.0.0.0 -p 3000 -e development
+
+ruby -S gem -v
+jruby -S gem -v
+jruby --debug
+/opt/jruby -S gem -v
+```
+
+console debugging
+* Use [this]( https://www.rubydoc.info/gems/pry-debugger-jruby/2.1.1) doc for navigation, breakpoint & expression
+```
+binding.pry -> put anywhere in code where u want 1st breakpoint
+```
