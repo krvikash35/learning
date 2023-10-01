@@ -278,6 +278,8 @@ telnet host/ip port
 ngrep -d lo0 port 3001
 ngrep -d any
 ngrep host localhost port 3001
+
+ngrep -W byline -q 'http' | grep 'sometext'  -C 50
 ```
 
 ## Other
