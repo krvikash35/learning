@@ -343,3 +343,25 @@ tty vs stty vs psedu-ttyps vs terminal/console vs shell
 * some tty are provided by kernel on behalf of hardware device. i.e input coming from keyboar & output going to text mode.
 * `pseduo-ttys`` are provided by programs called terminal emulator such a xterm
 `shell` -> i.e bash, zsh a shell interpreter, control tty to offer user experience
+
+
+```
+ssh vikash.kumar@dbhost << EOF
+sudo su
+psql -U postgres
+\c dbname
+SELECT array_to_json(array_agg(row_to_json(t))) FROM
+    (select id, order_number from tablename limit 2) t;
+EOF
+```
+
+Pipe & input direction
+```
+echo 'This is a test.\n line2' | wc -w
+
+wc -w <<EOF
+This is a test.
+Apple juice.
+100% fruit juice and no added sugar, colour or preservative.
+EOF
+```

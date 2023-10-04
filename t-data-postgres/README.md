@@ -90,6 +90,9 @@ select * from users limit 1;
 select id, name from users where age > 7 and name like 'vik%' order by age asc;
 
 operator: =, <, <=, >, >=, between, in, like 
+
+SELECT array_to_json(array_agg(row_to_json(t))) FROM 
+    (select id, order_number from example_table limit 2) t
 ```
 
 ```

@@ -45,6 +45,29 @@ git revert sh1 sha2
 git revert --no-commit sh1 sha2
 git revert --no-commit HEAD~2..
 ```
+
+```
+git reset --soft HEAD~1
+git reset --hard HEAD~1
+
+```
+
+```
+git branch -D branchname
+```
+
+```
+git stash
+git stash list
+git stash pop
+git stash pop stash@{n}
+
+git stash push -m "stashname"
+git stash save "stashname" //deprecated
+git stash apply stash@{n}
+git stash apply stash^{/my_stash_name}
+
+```
  ## gitflow vs github flow
 
  ### github flow
