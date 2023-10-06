@@ -297,6 +297,7 @@ scp host:hostPath localHostPath
 
 lsof -i:9090
 lsof -p 39518
+lsof -Pan -p 12574 -i
 top -pid $(pgrep Python | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ -pid /g')
 
 echo dkkd dkls > filename    # write to file, escape using " for special char

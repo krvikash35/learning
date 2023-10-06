@@ -109,9 +109,7 @@ CREATE TABLE birds (
   description VARCHAR(1024)
 );
 
-INSERT INTO birds (bird , description) VALUES 
-('pigeon', 'common in cities')
-('eagle', 'bird of prey');
+INSERT INTO birds (bird , description) VALUES ('pigeon', 'common in cities'), ('eagle', 'bird of prey');
 ```
 
 * Neither TIMESTAMP variants store a time zone (or an offset), despite what the names suggest.
