@@ -28,8 +28,13 @@ alloc_objects   — total amount of objects allocated (regardless of released)
 
 Commands
 ```
-curl http://localhost:3001/debug/pprof/heap > heap.out  --> download profile sample
+curl http://localhost:6060/debug/pprof/heap > heap0                 --> download profile sample
+curl http://localhost:6060/debug/pprof/profile > cpu0               --> download profile sample
+curl http://localhost:6060/debug/pprof/profile?seconds=60 > cpu0    --> download profile sample
 
 go tool pprof heap.out                                --> analyze in terminal
-go tool pprof -http=:3002 .heap.out                    --> analyze in browser
+go tool pprof -http=:3002 heap0                    --> analyze in browser
+go tool pprof -http=:3002 cpu0                    --> analyze in browser
 ```
+
+curl http://localhost:8080/debug/pprof/heap > heap.out
