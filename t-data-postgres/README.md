@@ -10,6 +10,28 @@ pg_dump. if` wal_keep_segments=15` then 15*16=240MB. by default it wal keep seg 
 
 
 ```
+\l
+\c dbname
+\du
+\d tablename
+\d
+\d+ tablename
+\dx -> extension list
+\df -> function list
+```
+
+
+**Partman**
+```
+SELECT "partman".run_maintenance(p_parent_table:='table', p_analyze := false, p_jobmon := true);
+
+SELECT "partman".run_maintenance( p_analyze := false, p_jobmon := true);
+
+call "partman".partition_data_proc(p_parent_table := 'table')
+```
+
+
+```
 pg_dump -h host -p port -U username -d db -f dump.sql
 ```
 
