@@ -1,6 +1,5 @@
 
-* Each segment of the WAL log size is `16 MB`
-pg_dump. if` wal_keep_segments=15` then 15*16=240MB. by default it wal keep seg is zero.
+* Each segment of the WAL log size is `16 MB`. if` wal_keep_segments=15` then 15*16=240MB. by default it wal keep seg is zero.
 * wal_level determines how much information is written to the WAL: 
   * `replica`: which writes enough data to support WAL archiving and replication, including running read-only queries on a standby server
   * `minimal`:  removes all logging except the information required to recover from a crash or immediate shutdown

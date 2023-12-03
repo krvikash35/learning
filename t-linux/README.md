@@ -366,3 +366,6 @@ Apple juice.
 100% fruit juice and no added sugar, colour or preservative.
 EOF
 ```
+
+apt-get install -y postgresql-client -> on ubuntu machine
+apk add postgresql-client            -> on pod with alpine
