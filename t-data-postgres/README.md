@@ -171,6 +171,13 @@ autovaccum & dead tupple
     overload by 135% on avg. 1.35 process wait for cpu time over last 15m
 ```
 
+
+```
+create database <dbname>
+create user <username> SUPERUSER
+alter user <username> WITH PASSWORD <password>
+```
+
 ## links
 * [failover](https://severalnines.com/blog/failover-postgresql-replication-101)
 * [replication](https://severalnines.com/blog/postgresql-streaming-replication-deep-dive)

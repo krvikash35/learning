@@ -261,3 +261,7 @@ docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -
 * volume can be created independently or while during container creation. Given volume can be mounted into multiple container. 
 * volume bind is simillar to bind mount except volume is managed by docker & isolated from core functinality of host machine.
 * type: `bind`, `volume`, `tmpfs`
+
+
+to connect from docker to server running on mac
+host.docker.internal
