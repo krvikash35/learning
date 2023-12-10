@@ -17,6 +17,13 @@ get customer_1
 set customer_1 abc
 ```
 
+since v6, redis has added ACL. before this, there was "default" user, where app did not had to mandatory pass username("", "default" or no username are all equivalant), they can only pass password for default user if it is set. password for default user was set using command `config set requirepass mypassword`
+
+auth command was also extended to support username
+* new form: `auth <username> <password>`
+* old form: `auth  <password>`
+
+
 ```
 config get requirepass
 config set requirepass mypassword
