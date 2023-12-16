@@ -235,10 +235,28 @@ USER patrick
 
 ### Commands
 ```
+docker build .
+docker start mycontainer
+docker stop mycontainer
+docker kill mycontainer
+docker restart mycontainer
+docker rm mycontainer
+docker rm -f mycontainer
+docker logs mycontainer
+
+docker ps
+docker ps -a
+
 docker image ls
 docker container ls
 docker network ls
 docker volume ls
+
+docker stats
+docker top mycontainer
+
+docker container prune
+docker system prune
 
 
 docker build -f go-server-dockerfile -t simple-go-server .

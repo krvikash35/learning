@@ -38,3 +38,14 @@ gcloud
 
 
 ```
+
+
+must
+------
+* laptop and terminal setup
+* git
+* go
+* vscode
+* linux
+* docker
+* kubernetes

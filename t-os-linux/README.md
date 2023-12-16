@@ -98,16 +98,15 @@ process
 
 ```
 
-networking
-```
-tailnet host port
-nc host port
-echo "hello" | nc host port
-```
-
 disk
 ```
+df -ha  -> complete disk usage in human format
+df -T  -> disk usage by filesystem type
 
+du -ha /opt -> all file
+du -hs /opt -> specific file/dir
+
+fdisk -l
 ```
 
 input, output, pipe
@@ -124,6 +123,16 @@ date
     * `2020-05-09T13:49:54+00:00`
     * `2020-05-09T13:49:54Z` 
 * unix : format, machine friendly, limited, no of seconds elapsed since 1,Jan,1970(midNight UTC/GMT). 
+
+```
+1702716596                  Timestamp 
+1702716596441               Timestamp in milliseconds 
+2023-12-16T08:49:56Z        ISO 8601
+2023-12-16T14:19:56+05:30   ISO 8601 with IST tz
+16 Dec 2023, 08:49:56       Date Time(UTC)
+16 Dec 2023, 14:19:56       Date Time(IST)
+
+```
 
 ```bash
 date -d"2014-02-14T12:30" +%s   # convert iso8601 to unix
@@ -143,7 +152,7 @@ Navigations
 ```
 Down Arrow, Enter, e, j    One line forward.
 Up Arrow, y, k             One line backward.
-Space bar, Page Down       One page forward.
+Space bar, Page Down, f       One page forward.
 Page Up, b                 One page backward.
 G                          go to end of file
 g                          go to start of file
@@ -256,6 +265,8 @@ nc localhost 1234                   # connect to tcp server on localhost:1234
 
 nc -zv localhost 20-30              # port scan b/w 20 & 30
 nc -zv localhost 80 20 22           # port scan on 80, 20, 22
+
+echo "hello" | nc host port
 ```
 
 
@@ -263,6 +274,7 @@ nc -zv localhost 80 20 22           # port scan on 80, 20, 22
 netstat -a -> show all port 
 netstat -l -> list only listening port
 netstat -i -> list interface
+ip link show
 ```
 
 ```

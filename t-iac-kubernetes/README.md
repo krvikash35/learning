@@ -147,6 +147,9 @@ kubectl get pod my-pod -o yaml
 kubectl get pod my-pod -o wide
 kubectl get pods mypod -o jsonpath='{.spec.containers[*].name}'
 
+kubectl edit svc <service_object_name> 
+kubectl edit hpa <hpa_object_name>
+
 kubectl get events
 kubectl config view
 kubectl config get-clusters
@@ -175,10 +178,14 @@ kubectl expose deployment hello-node --type=LoadBalancer --port=8080 # expose th
 
 kubectl get pods --show-labels --all-namespaces  | grep ingress | grep controller
 kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+
+
+kubectl port-forward service/<service> <local_port>:<service_port>
 ```
 
 ```
 kubectx
+kubens
 stern podRegex -c containerRegex
 ```
 ## helm & chart
