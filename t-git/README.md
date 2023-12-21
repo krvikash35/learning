@@ -4,6 +4,11 @@ git merge
 git rebase
 git pull
 git pull --rebase
+
+git clone --depth 1 --branch <tag> <repo>
+git rm --cached <file>
+git rm -r --cached <folder>
+git revert -m 1 <commit>
 ```
 
 * pull=fetch+merge or fetch+rebase. by default pull uses merge strategy

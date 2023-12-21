@@ -283,3 +283,15 @@ docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -
 
 to connect from docker to server running on mac
 host.docker.internal
+
+
+**Docker Compose**
+
+```
+docker-compose build
+docker-compose build --no-cache
+
+docker-compose up
+docker-compose up --build
+docker-compose up --force-recreate
+```

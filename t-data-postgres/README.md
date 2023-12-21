@@ -8,25 +8,30 @@
 * `restart_lsn`: The address (LSN) of oldest WAL which still might be required by the consumer of this slot and thus won't be automatically removed during checkpoints unless this LSN gets behind more than max_slot_wal_keep_size from the current LSN. NULL if the LSN of this slot has never been reserved.
 
 
-```
-\l
-\c dbname
-\du
-\d tablename
-\d
-\d+ tablename
-\dx -> extension list
-\df -> function list
-```
 
 
 **Partman**
+* postgres >10 support native partition
+* before pg10, partman used trigger based partition
 ```
-SELECT "partman".run_maintenance(p_parent_table:='table', p_analyze := false, p_jobmon := true);
+CREATE SCHEMA partman
+CREATE EXTENSION pg_partman SCHEMA partman
 
+CREATE TABLE todo (
+  id serial,
+  title text,
+  completed_at timestamptz,
+  created_at timestamptz not null default now(),
+  primary key (id, created_at)
+)PARTITION BY RANGE (created_at);
+
+SELECT partman.create_parent('public.todo', 'created_at', 'native','daily' );
+UPDATE partman.part_config SET retention = '10 days' WHERE parent_table = 'public.todo';
+
+SELECT "partman".run_maintenance(p_parent_table:='todo', p_analyze := false, p_jobmon := true);
 SELECT "partman".run_maintenance( p_analyze := false, p_jobmon := true);
 
-call "partman".partition_data_proc(p_parent_table := 'table')
+call "partman".partition_data_proc(p_parent_table := 'todo')
 ```
 
 
@@ -88,6 +93,19 @@ FROM generate_series(1, 1000) AS n;
 ANALYZE users;
 ```
 
+```
+\l
+\c db user
+\du
+\d tablename
+\d
+\d+ tablename
+\dx -> extension list
+\df -> function list
+\dt *.*`
+
+```
+
 
 
 * dd
@@ -103,6 +121,7 @@ ANALYZE users;
 * \o out.tx toggle output file by \o
 * SET search_path TO public, inventory  it help to avoid putting schema name prefix
 * show search_path; see current value (list of schema) in search path
+* \pset pager on
 
 
 crud
@@ -174,8 +193,50 @@ autovaccum & dead tupple
 
 ```
 create database <dbname>
+create database <dbname>
+drop database <dbname>
+alter database <dbname> owner to <username>
+
 create user <username> SUPERUSER
+drop user <user>
 alter user <username> WITH PASSWORD <password>
+
+
+ALTER TABLE public.todo OWNER TO vikash;
+GRANT ALL PRIVILEGES ON DATABASE <dbname> TO <username> ;
+```
+
+
+**HBA**
+
+```
+select * from pg_hba_file_rules;
+show hba_file;
+sudo systemctl reload postgresql@11-main
+SELECT pg_reload_conf();
+```
+
+
+
+**Patroni**
+* config
+  * global: stored in dcs. If node require restart (due to change of specific parameter i.e postmaster context) a special flag pending_restart is required.
+  * local: store local to node in yml file and take precedence over global. Can be reloaded by sending SIGHUP to patroni process, performing patronictl reload
+
+```
+cat /var/lib/postgresql/patroni_conf/patroni_global_config.yaml
+cat /var/lib/postgresql/patroni_conf/patroni_local_config.yaml
+
+patronictl -c /var/lib/postgresql/patroni_conf/patroni_local_config.yaml list
+patronictl reload
+patronictl edit-config
+patronictl failover
+patronictl switchover
+patronictl flush -->discards scheduled events, if any.
+patronictl history
+patronictl show-config
+patronictl version
+patronictl pause - temporarily puts the Patroni cluster in maintenance mode and disables automatic failover.
 ```
 
 ## links
