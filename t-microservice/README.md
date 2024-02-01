@@ -163,3 +163,80 @@ prefix
 * sf(software) i.e sf-design-pattern, sf-design-principle
 * linux: ssh, scp
 * net-
+
+
+
+** Hystrix **
+* enabled
+* DefaultTimeout - 1000 - is how long to wait for command to complete, in milliseconds
+* requestVolumeThreshold 
+    * This property sets the minimum number of requests in a rolling window that will trip the circuit
+    * default - 20
+* errorThresholdPercentage
+    * This property sets the error percentage at or above which the circuit should trip open and start short-circuiting requests to fallback logic
+    * default - 50%
+* sleepWindowInMilliseconds
+    * This property sets the amount of time, after tripping the circuit, to reject requests before allowing attempts again to determine if the circuit should again be closed
+    * default - 5000
+* rollingWindow
+    * default - 10s
+
+
+* DefaultTimeout = 1000 - DefaultTimeout is how long to wait for command to complete, in milliseconds
+* DefaultMaxConcurrent = 10 - DefaultMaxConcurrent is how many commands of the same type can run at the same time
+* DefaultVolumeThreshold = 20 -DefaultVolumeThreshold is the minimum number of requests needed before a circuit can be tripped due to health
+* DefaultSleepWindow = 5000 -DefaultSleepWindow is how long, in milliseconds, to wait after a circuit opens before testing for recovery
+* DefaultErrorPercentThreshold = 50 -DefaultErrorPercentThreshold causes circuits to open once the rolling measure of errors exceeds this percent of requests
+
+
+
+
+https://github.com/afex/hystrix-go/blob/master/hystrix/metric_collector/default_metric_collector.go
+
+```
+metrics
+case "success":
+		r.Successes = 1
+	case "failure":
+		r.Failures = 1
+		r.Errors = 1
+	case "rejected":
+		r.Rejects = 1
+		r.Errors = 1
+	case "short-circuit":
+		r.ShortCircuits = 1
+		r.Errors = 1
+	case "timeout":
+		r.Timeouts = 1
+		r.Errors = 1
+	case "context_canceled":
+		r.ContextCanceled = 1
+	case "context_deadline_exceeded":
+		r.ContextDeadlineExceeded = 1
+```
+
+```
+    eventType := "failure"
+	if err == ErrCircuitOpen {
+		eventType = "short-circuit"
+	} else if err == ErrMaxConcurrency {
+		eventType = "rejected"
+	} else if err == ErrTimeout {
+		eventType = "timeout"
+	} else if err == context.Canceled {
+		eventType = "context_canceled"
+	} else if err == context.DeadlineExceeded {
+		eventType = "context_deadline_exceeded"
+	}
+    c.reportEvent(eventType)
+```
+
+```
+SUCCESS	 - execution complete with no errors
+FAILURE -	execution threw an Exception
+TIMEOUT	- execution started, but did not complete in the allowed time
+BAD_REQUEST -	execution threw a HystrixBadRequestException
+SHORT_CIRCUITED	- circuit breaker OPEN, execution not attempted
+THREAD_POOL_REJECTED - thread pool at capacity, execution not attempted
+SEMAPHORE_REJECTED -	semaphore at capacity, execution not attempted
+```

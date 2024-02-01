@@ -260,13 +260,14 @@ Options
 
 Examples
 ```
-nc -l 1234                          # start tcp server on localhost:1234
+ nc -l 1234                         # start tcp server on localhost:1234
 nc localhost 1234                   # connect to tcp server on localhost:1234
 
 nc -zv localhost 20-30              # port scan b/w 20 & 30
 nc -zv localhost 80 20 22           # port scan on 80, 20, 22
 
 echo "hello" | nc host port
+echo -n "testkey:500|g" | nc -w 1 -u -4 localhost 8125
 ```
 
 
@@ -291,7 +292,7 @@ ngrep -d lo0 port 3001
 ngrep -d any
 ngrep host localhost port 3001
 
-ngrep -W byline -q 'http' | grep 'sometext'  -C 50
+ngrep -W byline -q 'http' | grep '/transport/v1/re_estimate'  -C 50
 ```
 
 ## Other
