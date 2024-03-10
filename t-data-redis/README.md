@@ -9,6 +9,9 @@ redis-cli
 redis-cli -h localhost -p 6379
 redis-cli -c  -> cluster mode
 
+command.txt - SET MY_KEY "copy pasted the value"
+redis-cli < commands.txt
+
 
 keys "*"
 keys "customer*"
@@ -16,6 +19,7 @@ RANDOMKEY
 
 get customer_1
 set customer_1 abc
+del customer_1
 
 info
 info server

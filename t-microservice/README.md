@@ -195,7 +195,7 @@ https://github.com/afex/hystrix-go/blob/master/hystrix/metric_collector/default_
 
 ```
 metrics
-case "success":
+    case "success":
 		r.Successes = 1
 	case "failure":
 		r.Failures = 1

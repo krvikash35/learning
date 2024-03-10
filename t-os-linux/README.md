@@ -382,3 +382,12 @@ EOF
 
 apt-get install -y postgresql-client -> on ubuntu machine
 apk add postgresql-client            -> on pod with alpine
+
+
+## top
+
+```
+top 
+shift + m -> sort by mem
+shitf + p -> sort by cpu
+```

@@ -425,6 +425,20 @@ iso
 
 ```
 
+go env
+```
+GOROOT='/usr/local/go'
+GOPATH='/Users/vikashkumar/go'
+GOBIN=''
+
+GOPRIVATE=''
+GOPROXY='https://proxy.golang.org,direct'
+
+GO111MODULE=''
+GOMODCACHE='/Users/vikashkumar/go/pkg/mod'
+```
+
+
 Links
 
 * https://gobyexample.com/
