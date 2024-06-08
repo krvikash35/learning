@@ -195,7 +195,24 @@ option + del          delete word
 grep "pattern1\|pattern2"
 ```
 
-Logging
+## systemctl
+* `service` is based on old init system /etc/init.d. 
+* `systemctl` operate on file based in  /lib/systemd if not fallback to /etc/init.d
+```
+systemctl reboot
+systemctl poweroff
+systemctl list-units --type=service
+systemctl list-units --type=service --state=active[running,stopped,enabled,disabled,failed]
+systemctl list-units --failed
+systemctl start|stop|restart|enable|disable {servicename} enable-onboot
+systemctl is-enabled|is-active {servicename}
+systemctl kill {servicename}
+systemctl kill -s 9 {servicename}
+
+service sshd status|start|stop|restart
+```
+
+## journalctl
 
 ```
 journalctl
@@ -224,22 +241,7 @@ journalctl -r                       -> reverse, sort by timestamp
 journalctl -o json-pretty|verbose|cat
 ```
 
-## systemctl
-* `service` is based on old init system /etc/init.d. 
-* `systemctl` operate on file based in  /lib/systemd if not fallback to /etc/init.d
-```
-systemctl reboot
-systemctl poweroff
-systemctl list-units --type=service
-systemctl list-units --type=service --state=active[running,stopped,enabled,disabled,failed]
-systemctl list-units --failed
-systemctl start|stop|restart|enable|disable {servicename} enable-onboot
-systemctl is-enabled|is-active {servicename}
-systemctl kill {servicename}
-systemctl kill -s 9 {servicename}
 
-service sshd status|start|stop|restart
-```
 
 ## Networking tool 
 * nc - netcat
@@ -391,3 +393,14 @@ top
 shift + m -> sort by mem
 shitf + p -> sort by cpu
 ```
+
+
+`<<` is known as heredoc
+```
+cat
+```
+
+write to file
+* `echo hello > out.txt` - write to file
+* `cat > out.txt` - write to file from terminal, press ctrl + c once done
+* `cat <<EOF > out.txt` -write to file from terminal, enter EOF once done
