@@ -1,3 +1,5 @@
+https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby
+
 
 ```
 brew install rbenv ruby-build
@@ -9,14 +11,20 @@ rbenv global 3.1.2
 rbenv local 3.1.2
 rbenv which ruby
 ```
+RBS(ruby signature) a type anotation was introduced in ruby 3.0.
 
 Editor support
 * vscode is not good for ruby development, better use rubymine by jetbrain
 * vscode need extra setup, to start with install extension `solargraph` but for ruby/rail, you need more setup
 * install vs code extension
-    * Solargraph ( need to `gem install solargraph;`)
+    * Solargraph ( need to `gem install solargraph; gem install yard`)
+        * `solargraph download-core`, `yard gems`(optional), `yard config –gem-install-yri`
     * rubocop-rails
-* 
+
+vscode solargraph vs ruby LSP
+* LSP is good for ruby >= 3.0 else use solargraph
+
+
 
 gem vs bundler
 * with `gem` you have to install all the gem individually i.e
@@ -65,3 +73,5 @@ console debugging
 ```
 binding.pry -> put anywhere in code where u want 1st breakpoint
 ```
+
+upcase! vs upcase - 1st will modify original variable i.e rewrite in memory , 2nd will return
