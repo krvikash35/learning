@@ -2,6 +2,7 @@
 anything I learn on d2d basis
 
 ## todo
+* sidekiq
 * http1 vs http1.1 vs http2 vs grpc
 * json vs protobuf, all language sample
 * distributed config/data store: etcd, consul, zookeeper, isitio

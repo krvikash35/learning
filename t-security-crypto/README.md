@@ -92,3 +92,40 @@ Authentication
     * client verify the server certificate using CA
     * clinet and server decide and generate session key(symmetric) that is used for encrypting data.
     * symmetric key is generated using client random, server random, premaster secret. Both arrive at same key.
+
+
+PEM VS DER VS cert vs cer
+
+https://gist.github.com/kirilkirkov/4c73da883088b6ff7420c49af1561b2b
+
+pem file - it can contain both private key and public certificate.
+
+```
+---BEGIN CERTIFICATE---
+
+
+---END CERTIFICATE ----
+
+
+---BEGIN RSA PRIVATE KEY---
+
+---END RSA PRIVATE KEY---
+```
+
+der - parent form of PEM. binary version of base64-encode PEM file. mostly used on windows
+
+ca.cert file
+```
+---BEGIN CERTIFICATE---
+
+
+---END CERTIFICATE ----
+```
+
+
+```
+openssl x509 -in cert.pem -text -noout
+openssl x509 -in certificate.der -inform der -text -noout //View DER encoded Certificate
+openssl x509 -in cert.crt -outform der -out cert.der //PEM to DER
+openssl x509 -in cert.crt -inform der -outform pem -out cert.pem //DER to PEM
+```
