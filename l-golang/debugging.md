@@ -2,6 +2,7 @@ debug flag
 
 ```
 -gcflags="all=-N -l"
+-ldflags="-s -w"
 
 go build -gcflags="all=-N -l" -o myApp
 go build -tags dynamic -> to have confluent-kafka-go link librdkafka dynamically on m1
