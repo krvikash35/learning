@@ -1,3 +1,9 @@
+
+
+
+go test -v -run ^\QTestServer\E$/^\Qsuccess_if_no_error\E$ myapp/internal/server
+
+
 mock tool
 * https://github.com/uber-go/mock
 * https://github.com/golang/mock -> called `gomock` or `mockgen`, deprecated by above uber
