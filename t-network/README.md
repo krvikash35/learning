@@ -116,3 +116,157 @@ VPN Types
 
 ## HTTPS
 * HTTPS uses SSL 
+
+
+# Network Connectivity Debugging Cheat Sheet
+
+## 1. DNS Resolution
+
+### macOS (uses system resolver)
+
+```bash
+dscacheutil -q host -a name <hostname>
+```
+
+### Query specific DNS server
+
+```bash
+dig @<dns-server> <hostname>
+```
+
+### Check VPN / split DNS config
+
+```bash
+scutil --dns
+```
+
+---
+
+## 2. TCP Connectivity
+
+### Test TCP port
+
+```bash
+nc -vz <hostname> <port>
+```
+
+Example:
+
+```bash
+nc -vz api.example.com 443
+```
+
+Expected:
+
+```text
+Connection to api.example.com port 443 [tcp/https] succeeded!
+```
+
+---
+
+## 3. HTTP Connectivity
+
+### HTTP request
+
+```bash
+curl -v http://<hostname>
+```
+
+### HTTPS request
+
+```bash
+curl -vk https://<hostname>
+```
+
+### Headers only
+
+```bash
+curl -I https://<hostname>
+```
+
+Expected:
+
+```text
+HTTP/1.1 200 OK
+```
+
+**Note:** Even `404 Not Found` means connectivity is working. The request reached the server.
+
+---
+
+## 4. TLS / SSL Connectivity
+
+### TLS handshake + certificate chain
+
+```bash
+openssl s_client \
+  -connect <hostname>:443 \
+  -servername <hostname>
+```
+
+Look for:
+
+```text
+CONNECTED
+Protocol: TLSv1.3
+Cipher: TLS_AES_256_GCM_SHA384
+```
+
+---
+
+## 5. Troubleshooting Flow
+
+```bash
+# DNS
+dscacheutil -q host -a name <hostname>
+
+# TCP
+nc -vz <hostname> <port>
+
+# HTTP/HTTPS
+curl -vk https://<hostname>
+
+# TLS
+openssl s_client -connect <hostname>:443 -servername <hostname>
+```
+
+---
+
+## Result Interpretation
+
+| Result | Meaning |
+|----------|----------|
+| DNS resolves | DNS OK |
+| `nc` succeeds | TCP OK |
+| `curl` returns any HTTP response (200/404/500) | HTTP connectivity OK |
+| `openssl s_client` connects | TLS OK |
+| `Connection refused` | Host reachable, service not listening |
+| `Operation timed out` | Routing/firewall issue |
+| `NXDOMAIN` | DNS record not found |
+| TLS verify error | Usually internal CA not trusted |
+
+---
+
+## DNS Tools Comparison
+
+| Command | Purpose |
+|----------|----------|
+| `dscacheutil` | What macOS applications see |
+| `dig` | Raw DNS lookup and debugging |
+| `nslookup` | Simple DNS lookup |
+| `scutil --dns` | View macOS resolver and split-DNS configuration |
+
+---
+
+## Quick One-Liner
+
+```bash
+dscacheutil -q host -a name <hostname> && \
+nc -vz <hostname> <port> && \
+curl -vk https://<hostname>
+```
+
+Checks:
+1. DNS
+2. TCP
+3. HTTPS
